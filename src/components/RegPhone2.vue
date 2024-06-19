@@ -3,13 +3,13 @@
     <div class="div-2">
       <img
         loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/895bd12dcec3ae3c717b297c0d7d30d53137f5dcbd078d57afdfe1477ec54180?"
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f00260add49e87f7a22ab03e6c015f9b249e06b89bdf33849f98653660cd777?"
         class="img"
       />
       <div class="div-3">
         <img
           loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/50ef0a1eb2692e5b7fa45d211ba0c0ac8ed3e9c629ae708c46dd0d24a8da7828?"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/21902bbfdae78d9644dc63d5ac3931f815f906dbc5075560a75ddd690a60a017?"
           class="img-2"
         />
         <div class="div-4">Войти / Зарегистрироваться</div>
@@ -26,16 +26,19 @@
         </div>
         <div class="column-2">
           <div class="div-7">
-            <div class="div-8">
-              Добро пожаловать <br />на портал «Luxury Home»
-            </div>
+            <div class="div-8">Регистрация</div>
             <div class="div-9">
-              Зарегистрируйтесь или войдите в свою учетную запись, чтобы начать
-              пользоваться функционалом портала
+              Заполните данные и получите смс-код <br />для подтверждения на ваш
+              номер телефона
             </div>
             <div class="div-10">
-              <div class="div-11">Войти</div>
-              <div class="div-12">Зарегистрироваться</div>
+              <div class="div-11">Телефон</div>
+              <div class="div-12">+7 (900) 000 00 00</div>
+            </div>
+            <div class="div-13">Получить смс-код</div>
+            <div class="div-14">
+              <div class="div-15">У вас уже есть аккаунт?</div>
+              <div class="div-16">Войти</div>
             </div>
           </div>
         </div>
@@ -46,7 +49,7 @@
 
 <script>
 export default {
-  name: 'StartMenu'
+  name: 'RegPhone2'
 }
 </script>
 
@@ -161,8 +164,6 @@ export default {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  font-size: 18px;
-  font-weight: 700;
   padding: 80px 80px 70px;
 }
 @media (max-width: 991px) {
@@ -173,8 +174,8 @@ export default {
 }
 .div-8 {
   color: var(--GreyDarkMain, #292f36);
-  margin-top: 251px;
-  font: 42px PT Root UI, sans-serif;
+  margin-top: 197px;
+  font: 700 42px PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
   .div-8 {
@@ -184,10 +185,9 @@ export default {
 }
 .div-9 {
   color: var(--GreyDarkMain, #292f36);
-  font-family: PT Root UI, sans-serif;
-  font-weight: 400;
   margin-top: 24px;
   width: 470px;
+  font: 400 18px PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
   .div-9 {
@@ -195,44 +195,89 @@ export default {
   }
 }
 .div-10 {
+  background-color: #fff;
   display: flex;
-  margin-top: 60px;
-  width: 494px;
+  margin-top: 28px;
+  width: 470px;
   max-width: 100%;
-  gap: 20px;
-  white-space: nowrap;
-  text-align: center;
-  letter-spacing: 0.36px;
-  line-height: 133%;
-}
-@media (max-width: 991px) {
-  .div-10 {
-    flex-wrap: wrap;
-    margin-top: 40px;
-    white-space: initial;
-  }
+  flex-direction: column;
 }
 .div-11 {
+  color: var(--GreyDarkMain, #292f36);
+  text-align: center;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
+  letter-spacing: 0.32px;
+  font: 700 16px PT Root UI, sans-serif;
+}
+@media (max-width: 991px) {
+  .div-11 {
+    max-width: 100%;
+  }
+}
+.div-12 {
+  align-items: start;
+  border-radius: 4px;
+  background-color: var(--GreyLight_L, #f4f5f6);
+  margin-top: 8px;
+  color: #b0b2b6;
+  justify-content: center;
+  padding: 12px;
+  font: 500 18px PT Root UI, sans-serif;
+}
+@media (max-width: 991px) {
+  .div-12 {
+    max-width: 100%;
+    padding-right: 20px;
+  }
+}
+.div-13 {
+  font-feature-settings: "clig" off, "liga" off;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   background-color: var(--Accent, #008ad7);
+  margin-top: 24px;
+  width: 470px;
+  max-width: 100%;
   color: #fff;
-  flex: 1;
+  text-align: center;
+  letter-spacing: 0.36px;
   padding: 13px 28px;
+  font: 700 18px/133% PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
-  .div-11 {
-    white-space: initial;
+  .div-13 {
     padding: 0 20px;
   }
 }
-.div-12 {
+.div-14 {
+  display: flex;
+  margin-top: 60px;
+  width: 470px;
+  max-width: 100%;
+  gap: 20px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0.36px;
+  line-height: 133%;
+  justify-content: space-between;
+}
+@media (max-width: 991px) {
+  .div-14 {
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
+}
+.div-15 {
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: PT Root UI, sans-serif;
+  font-weight: 400;
+}
+.div-16 {
   color: var(--Accent, #008ad7);
   font-feature-settings: "clig" off, "liga" off;
   font-family: PT Root UI, sans-serif;
-  margin: auto 0;
+  font-weight: 700;
 }
 </style>

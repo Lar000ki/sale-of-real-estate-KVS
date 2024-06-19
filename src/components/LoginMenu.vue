@@ -3,13 +3,13 @@
     <div class="div-2">
       <img
         loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/895bd12dcec3ae3c717b297c0d7d30d53137f5dcbd078d57afdfe1477ec54180?"
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/fd77e54c4ed0690277595b3e347424decfd13813093d77c15562a5c92c9f1234?"
         class="img"
       />
       <div class="div-3">
         <img
           loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/50ef0a1eb2692e5b7fa45d211ba0c0ac8ed3e9c629ae708c46dd0d24a8da7828?"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/895bdc023b36a44a9c7e6c2fd9a795ce33af32680c20df60afe854ddf3e26fe0?"
           class="img-2"
         />
         <div class="div-4">Войти / Зарегистрироваться</div>
@@ -26,16 +26,20 @@
         </div>
         <div class="column-2">
           <div class="div-7">
-            <div class="div-8">
-              Добро пожаловать <br />на портал «Luxury Home»
-            </div>
-            <div class="div-9">
-              Зарегистрируйтесь или войдите в свою учетную запись, чтобы начать
-              пользоваться функционалом портала
-            </div>
+            <div class="div-8">Вход</div>
+            <div class="div-9">Введите номер телефона и пароль.</div>
             <div class="div-10">
-              <div class="div-11">Войти</div>
-              <div class="div-12">Зарегистрироваться</div>
+              <div class="div-11">Телефон</div>
+              <div class="div-12">+7 (900) 000 00 00</div>
+            </div>
+            <div class="div-13">
+              <div class="div-14">Пароль</div>
+              <div class="div-15">******</div>
+            </div>
+            <div class="div-16">Войти</div>
+            <div class="div-17">
+              <div class="div-18">Нет аккаунта?</div>
+              <div class="div-19">Зарегистрироваться</div>
             </div>
           </div>
         </div>
@@ -46,7 +50,7 @@
 
 <script>
 export default {
-  name: 'StartMenu'
+  name: 'LoginMenu'
 }
 </script>
 
@@ -161,8 +165,6 @@ export default {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  font-size: 18px;
-  font-weight: 700;
   padding: 80px 80px 70px;
 }
 @media (max-width: 991px) {
@@ -173,8 +175,8 @@ export default {
 }
 .div-8 {
   color: var(--GreyDarkMain, #292f36);
-  margin-top: 251px;
-  font: 42px PT Root UI, sans-serif;
+  margin-top: 154px;
+  font: 700 42px PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
   .div-8 {
@@ -184,10 +186,8 @@ export default {
 }
 .div-9 {
   color: var(--GreyDarkMain, #292f36);
-  font-family: PT Root UI, sans-serif;
-  font-weight: 400;
   margin-top: 24px;
-  width: 470px;
+  font: 400 18px PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
   .div-9 {
@@ -195,44 +195,134 @@ export default {
   }
 }
 .div-10 {
+  background-color: #fff;
   display: flex;
-  margin-top: 60px;
-  width: 494px;
+  margin-top: 28px;
+  width: 470px;
   max-width: 100%;
-  gap: 20px;
-  white-space: nowrap;
+  flex-direction: column;
+}
+.div-11 {
+  color: var(--GreyDarkMain, #292f36);
   text-align: center;
-  letter-spacing: 0.36px;
-  line-height: 133%;
+  font-feature-settings: "clig" off, "liga" off;
+  letter-spacing: 0.32px;
+  font: 700 16px PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
-  .div-10 {
-    flex-wrap: wrap;
-    margin-top: 40px;
+  .div-11 {
+    max-width: 100%;
+  }
+}
+.div-12 {
+  align-items: start;
+  border-radius: 4px;
+  background-color: var(--GreyLight_L, #f4f5f6);
+  margin-top: 8px;
+  color: #b0b2b6;
+  justify-content: center;
+  padding: 12px;
+  font: 500 18px PT Root UI, sans-serif;
+}
+@media (max-width: 991px) {
+  .div-12 {
+    max-width: 100%;
+    padding-right: 20px;
+  }
+}
+.div-13 {
+  background-color: #fff;
+  display: flex;
+  margin-top: 24px;
+  width: 470px;
+  max-width: 100%;
+  flex-direction: column;
+  white-space: nowrap;
+}
+@media (max-width: 991px) {
+  .div-13 {
     white-space: initial;
   }
 }
-.div-11 {
+.div-14 {
+  color: var(--GreyDarkMain, #292f36);
+  text-align: center;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
+  letter-spacing: 0.32px;
+  font: 700 16px PT Root UI, sans-serif;
+}
+@media (max-width: 991px) {
+  .div-14 {
+    max-width: 100%;
+  }
+}
+.div-15 {
+  align-items: start;
+  border-radius: 4px;
+  background-color: var(--GreyLight_L, #f4f5f6);
+  margin-top: 8px;
+  color: #b0b2b6;
+  justify-content: center;
+  padding: 12px;
+  font: 500 18px PT Root UI, sans-serif;
+}
+@media (max-width: 991px) {
+  .div-15 {
+    max-width: 100%;
+    padding-right: 20px;
+    white-space: initial;
+  }
+}
+.div-16 {
+  font-feature-settings: "clig" off, "liga" off;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   background-color: var(--Accent, #008ad7);
+  margin-top: 24px;
+  width: 470px;
+  max-width: 100%;
   color: #fff;
-  flex: 1;
+  white-space: nowrap;
+  text-align: center;
+  letter-spacing: 0.36px;
   padding: 13px 28px;
+  font: 700 18px/133% PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
-  .div-11 {
+  .div-16 {
     white-space: initial;
     padding: 0 20px;
   }
 }
-.div-12 {
+.div-17 {
+  display: flex;
+  margin-top: 60px;
+  width: 470px;
+  max-width: 100%;
+  gap: 20px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0.36px;
+  line-height: 133%;
+  justify-content: space-between;
+}
+@media (max-width: 991px) {
+  .div-17 {
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
+}
+.div-18 {
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: PT Root UI, sans-serif;
+  font-weight: 400;
+}
+.div-19 {
   color: var(--Accent, #008ad7);
   font-feature-settings: "clig" off, "liga" off;
   font-family: PT Root UI, sans-serif;
-  margin: auto 0;
+  font-weight: 700;
 }
 </style>

@@ -3,13 +3,13 @@
     <div class="div-2">
       <img
         loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/895bd12dcec3ae3c717b297c0d7d30d53137f5dcbd078d57afdfe1477ec54180?"
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8d16fbaf1b165a6816596815c2abd59987ebf5b54cdfc37151cbe276b5bea5d7?"
         class="img"
       />
       <div class="div-3">
         <img
           loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/50ef0a1eb2692e5b7fa45d211ba0c0ac8ed3e9c629ae708c46dd0d24a8da7828?"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/ef0c1e8150a55ba069bbcb88012ec8d8133143b88212ddfc2ed365eafe53951c?"
           class="img-2"
         />
         <div class="div-4">Войти / Зарегистрироваться</div>
@@ -26,17 +26,8 @@
         </div>
         <div class="column-2">
           <div class="div-7">
-            <div class="div-8">
-              Добро пожаловать <br />на портал «Luxury Home»
-            </div>
-            <div class="div-9">
-              Зарегистрируйтесь или войдите в свою учетную запись, чтобы начать
-              пользоваться функционалом портала
-            </div>
-            <div class="div-10">
-              <div class="div-11">Войти</div>
-              <div class="div-12">Зарегистрироваться</div>
-            </div>
+            <div class="div-8">Вы успешно зарегистрировались!</div>
+            <div class="div-9">Регистрация прошла успешно</div>
           </div>
         </div>
       </div>
@@ -46,7 +37,7 @@
 
 <script>
 export default {
-  name: 'StartMenu'
+  name: 'RegFinal'
 }
 </script>
 
@@ -156,13 +147,11 @@ export default {
 }
 .div-7 {
   justify-content: center;
-  align-items: center;
   align-self: stretch;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  font-size: 18px;
-  font-weight: 700;
+  color: var(--GreyDarkMain, #292f36);
   padding: 80px 80px 70px;
 }
 @media (max-width: 991px) {
@@ -172,67 +161,24 @@ export default {
   }
 }
 .div-8 {
-  color: var(--GreyDarkMain, #292f36);
-  margin-top: 251px;
-  font: 42px PT Root UI, sans-serif;
+  margin: 340px 71px 0;
+  font: 700 42px PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
   .div-8 {
     max-width: 100%;
-    margin-top: 40px;
+    margin: 40px 10px 0 0;
   }
 }
 .div-9 {
-  color: var(--GreyDarkMain, #292f36);
-  font-family: PT Root UI, sans-serif;
-  font-weight: 400;
-  margin-top: 24px;
-  width: 470px;
+  font-variant-numeric: lining-nums proportional-nums;
+  margin: 24px 71px 0;
+  font: 500 18px/150% PT Root UI, sans-serif;
 }
 @media (max-width: 991px) {
   .div-9 {
     max-width: 100%;
+    margin-right: 10px;
   }
-}
-.div-10 {
-  display: flex;
-  margin-top: 60px;
-  width: 494px;
-  max-width: 100%;
-  gap: 20px;
-  white-space: nowrap;
-  text-align: center;
-  letter-spacing: 0.36px;
-  line-height: 133%;
-}
-@media (max-width: 991px) {
-  .div-10 {
-    flex-wrap: wrap;
-    margin-top: 40px;
-    white-space: initial;
-  }
-}
-.div-11 {
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background-color: var(--Accent, #008ad7);
-  color: #fff;
-  flex: 1;
-  padding: 13px 28px;
-}
-@media (max-width: 991px) {
-  .div-11 {
-    white-space: initial;
-    padding: 0 20px;
-  }
-}
-.div-12 {
-  color: var(--Accent, #008ad7);
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
-  margin: auto 0;
 }
 </style>
