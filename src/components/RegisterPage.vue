@@ -12,6 +12,9 @@
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/50ef0a1eb2692e5b7fa45d211ba0c0ac8ed3e9c629ae708c46dd0d24a8da7828?"
           class="img-2"
         />
+        <div class="div-4">
+          <router-link to="/register">Зарегистрироваться</router-link>
+        </div>
       </div>
     </div>
     <div class="div-5">
@@ -26,15 +29,19 @@
         <div class="column-2">
           <div class="div-7">
             <div class="div-8">
-              Добро пожаловать <br />на портал «Luxury Home»
+              Регистрация на портале «Luxury Home»
             </div>
             <div class="div-9">
-              Зарегистрируйтесь или войдите в свою учетную запись, чтобы начать
-              пользоваться функционалом портала
+              Пожалуйста, введите свои данные для регистрации
             </div>
             <div class="div-10">
-              <router-link to="/login" class="div-11">Войти</router-link>
-              <router-link to="/register" class="div-12">Зарегистрироваться</router-link>
+              <input type="text" placeholder="Имя" class="input"/>
+              <input type="text" placeholder="Email" class="input"/>
+              <input type="password" placeholder="Пароль" class="input"/>
+              <div class="div-11">Зарегистрироваться</div>
+              <div class="div-12">
+                <router-link to="/login">Войти</router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -45,7 +52,7 @@
 
 <script>
 export default {
-  name: 'StartMenu'
+  name: 'RegisterPage'
 }
 </script>
 
@@ -83,16 +90,16 @@ export default {
   max-width: 100%;
   margin: auto 0;
 }
-.div-3 {
-  display: flex;
-  gap: 16px;
-  padding: 23px 0;
-}
 .img-2 {
   aspect-ratio: 1;
   object-fit: auto;
   object-position: center;
   width: 24px;
+}
+.div-3 {
+  display: flex;
+  gap: 16px;
+  padding: 23px 0;
 }
 .div-4 {
   font-family: PT Root UI, sans-serif;
