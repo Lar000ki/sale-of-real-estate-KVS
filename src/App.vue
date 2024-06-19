@@ -1,18 +1,73 @@
 <template>
-  <div id="app">
-    <header>
-      <!-- Логотип, который является кнопкой для перехода на главную -->
-      <router-link to="/">
-        <img src="@/assets/logo.png" alt="Логотип" />
-      </router-link>
-    </header>
-    <router-view />
+  <div>
+    <component :is="currentPageComponent" />
+    <nav class="navigation">
+      <button @click="changePage('StartMenu')">StartMenu</button>
+      <button @click="changePage('LoginMenu')">LoginMenu</button>
+      <button @click="changePage('ObjectsMenu')">ObjectsMenu</button>
+      <button @click="changePage('ProfileMenu')">ProfileMenu</button>
+      <button @click="changePage('RegPass')">RegPass</button>
+      <button @click="changePage('RegPhone')">RegPhone</button>
+      <button @click="changePage('RegPhone2')">RegPhone2</button>
+      <button @click="changePage('RegFinal')">RegFinal</button>
+    </nav>
+  </div>
+</template>
+<template>
+  <div class="app">
+    <AppHeader/>
+    
+    <main class="main-content">
+      <!-- Здесь располагается контент страницы -->
+      <router-view></router-view>
+    </main>
+    
+    <AppFooter/>
   </div>
 </template>
 
 <script>
+import AppHeader from './components/AppHeader.vue';
+import AppFooter from './components/AppFooter.vue';
+import StartMenu from './components/StartMenu.vue';
+import LoginMenu from './components/LoginMenu.vue';
+import ObjectsMenu from './components/ObjectsMenu.vue';
+import ProfileMenu from './components/ProfileMenu.vue';
+import RegPass from './components/RegPass.vue';
+import RegPhone from './components/RegPhone.vue';
+import RegPhone2 from './components/RegPhone2.vue';
+import RegFinal from './components/RegFinal.vue';
+
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    StartMenu,
+    LoginMenu,
+    ObjectsMenu,
+    ProfileMenu,
+    RegPass,
+    RegPhone,
+    RegPhone2,
+    RegFinal,
+    AppHeader,
+    AppFooter
+  },
+  data() {
+    return {
+      currentPage: 'StartMenu'
+    };
+  },
+  computed: {
+    currentPageComponent() {
+      return this.currentPage;
+    }
+  },
+  methods: {
+    changePage(page) {
+      this.currentPage = page;
+    }
+  }
 }
 </script>
 
@@ -23,5 +78,16 @@ header {
   align-items: center;
   padding: 10px;
   background-color: #f8f9fa;
+}
+.app {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Занимать всю высоту окна браузера */
+}
+
+.main-content {
+  flex: 1; /* Занимать все доступное пространство между хедером и футером */
+  padding: 20px;
 }
 </style>
