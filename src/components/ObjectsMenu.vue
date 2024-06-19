@@ -1,39 +1,5 @@
 <template>
   <main class="main-wrapper">
-    <header class="header">
-      <div class="header-logo">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/0a01f001dbf663485e2cd659313e7fb4793332772f1778fad2e20023b22eada4?"
-          alt="Logo"
-          class="logo-img"
-        />
-        <div class="header-titles">
-          <h1 class="header-title">Объекты</h1>
-          <h2 class="header-subtitle">Общие настройки</h2>
-        </div>
-      </div>
-      <nav class="nav">
-        <div class="nav-item">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/90b9f78737b8e3e19d1c02da23ea9c81258b062234303b5b068b97984dbf2abe?"
-            alt=""
-            class="nav-icon"
-          />
-          <span class="nav-text">Контент Контентов</span>
-        </div>
-        <div class="nav-item">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e9d8cdc57649b321516ec11d619c24d8c1f8cd6de636844dbdde3bb55f833ce?"
-            alt=""
-            class="nav-icon"
-          />
-          <span class="nav-text">Выйти</span>
-        </div>
-      </nav>
-    </header>
     <section class="content">
       <div class="content-header">
         <h3 class="content-title">Объекты</h3>

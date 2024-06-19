@@ -1,19 +1,5 @@
 <template>
   <div class="div">
-    <div class="div-2">
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/895bd12dcec3ae3c717b297c0d7d30d53137f5dcbd078d57afdfe1477ec54180?"
-        class="img"
-      />
-      <div class="div-3">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/50ef0a1eb2692e5b7fa45d211ba0c0ac8ed3e9c629ae708c46dd0d24a8da7828?"
-          class="img-2"
-        />
-      </div>
-    </div>
     <div class="div-5">
       <div class="div-6">
         <div class="column">

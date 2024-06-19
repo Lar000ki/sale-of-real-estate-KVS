@@ -1,0 +1,71 @@
+<template>
+    <header>
+      <div class="left-content">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f00260add49e87f7a22ab03e6c015f9b249e06b89bdf33849f98653660cd777?"
+          class="logo"
+        />
+      </div>
+      <div class="right-content">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/21902bbfdae78d9644dc63d5ac3931f815f906dbc5075560a75ddd690a60a017?"
+          class="user-icon"
+        />
+        <div class="login-text">Войти / Зарегистрироваться</div>
+      </div>
+    </header>
+  </template>
+  
+  <script>
+  export default {
+    name: 'HeaderComponent' // Название компонента изменено на многословное
+  };
+  </script>
+  
+  <style scoped>
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #2c2f34;
+    color: white;
+  }
+  .logo img {
+    height: 40px;
+  }
+  .nav-icons {
+    display: flex;
+    align-items: center;
+  }
+  .user-icon, .logout-icon {
+    margin-right: 10px;
+    /* Добавьте стили для ваших иконок */
+  }
+  .logout-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  .left-content {
+    display: flex;
+    align-items: center;
+  }
+  .logo {
+    margin-right: 20px;
+  }
+  .right-content {
+    display: flex;
+    align-items: center;
+  }
+  .user-icon {
+    margin-right: 10px;
+  }
+  .login-text {
+    margin-left: 10px;
+  }
+  </style>
+  

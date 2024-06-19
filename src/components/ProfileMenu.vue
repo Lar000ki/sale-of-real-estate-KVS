@@ -1,36 +1,5 @@
 <template>
   <div class="div">
-    <div class="div-2">
-      <div class="div-3">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/0a01f001dbf663485e2cd659313e7fb4793332772f1778fad2e20023b22eada4?"
-          class="img"
-        />
-        <div class="div-4">
-          <div class="div-5">Объекты</div>
-          <div class="div-6">Общие настройки</div>
-        </div>
-      </div>
-      <div class="div-7">
-        <div class="div-8">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/90b9f78737b8e3e19d1c02da23ea9c81258b062234303b5b068b97984dbf2abe?"
-            class="img-2"
-          />
-          <div class="div-9">Контент Контентов</div>
-        </div>
-        <div class="div-10">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e9d8cdc57649b321516ec11d619c24d8c1f8cd6de636844dbdde3bb55f833ce?"
-            class="img-3"
-          />
-          <div class="div-11">Выйти</div>
-        </div>
-      </div>
-    </div>
     <div class="div-12">
       <div class="div-13">Личные данные</div>
       <div class="div-14">

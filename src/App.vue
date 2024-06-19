@@ -1,5 +1,6 @@
 <template>
   <div>
+    <HeaderComponent />
     <component :is="currentPageComponent" />
     <nav class="navigation">
       <button @click="changePage('StartMenu')">StartMenu</button>
@@ -13,22 +14,9 @@
     </nav>
   </div>
 </template>
-<template>
-  <div class="app">
-    <AppHeader/>
-    
-    <main class="main-content">
-      <!-- Здесь располагается контент страницы -->
-      <router-view></router-view>
-    </main>
-    
-    <AppFooter/>
-  </div>
-</template>
 
 <script>
-import AppHeader from './components/AppHeader.vue';
-import AppFooter from './components/AppFooter.vue';
+import HeaderComponent from './components/Header.vue';
 import StartMenu from './components/StartMenu.vue';
 import LoginMenu from './components/LoginMenu.vue';
 import ObjectsMenu from './components/ObjectsMenu.vue';
@@ -38,10 +26,10 @@ import RegPhone from './components/RegPhone.vue';
 import RegPhone2 from './components/RegPhone2.vue';
 import RegFinal from './components/RegFinal.vue';
 
-
 export default {
   name: 'App',
   components: {
+    HeaderComponent,
     StartMenu,
     LoginMenu,
     ObjectsMenu,
@@ -49,9 +37,7 @@ export default {
     RegPass,
     RegPhone,
     RegPhone2,
-    RegFinal,
-    AppHeader,
-    AppFooter
+    RegFinal
   },
   data() {
     return {
@@ -68,7 +54,7 @@ export default {
       this.currentPage = page;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -78,16 +64,5 @@ header {
   align-items: center;
   padding: 10px;
   background-color: #f8f9fa;
-}
-.app {
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Занимать всю высоту окна браузера */
-}
-
-.main-content {
-  flex: 1; /* Занимать все доступное пространство между хедером и футером */
-  padding: 20px;
 }
 </style>

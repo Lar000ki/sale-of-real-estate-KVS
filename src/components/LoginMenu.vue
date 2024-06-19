@@ -1,20 +1,5 @@
 <template>
   <div class="div">
-    <div class="div-2">
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/fd77e54c4ed0690277595b3e347424decfd13813093d77c15562a5c92c9f1234?"
-        class="img"
-      />
-      <div class="div-3">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/895bdc023b36a44a9c7e6c2fd9a795ce33af32680c20df60afe854ddf3e26fe0?"
-          class="img-2"
-        />
-        <div class="div-4">Войти / Зарегистрироваться</div>
-      </div>
-    </div>
     <div class="div-5">
       <div class="div-6">
         <div class="column">
