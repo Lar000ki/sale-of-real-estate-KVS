@@ -13,6 +13,9 @@
       <button @click="changePage('RegFinal')">RegFinal</button>
     </nav>
   </div>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
 <script>

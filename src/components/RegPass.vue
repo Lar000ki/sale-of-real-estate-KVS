@@ -15,13 +15,13 @@
             <div class="div-9">Придумайте пароль</div>
             <div class="div-10">
               <div class="div-11">Пароль</div>
-              <div class="div-12">*****</div>
+              <input v-model="password" class="div-12" type="password" placeholder="Введите пароль">
             </div>
             <div class="div-13">
               <div class="div-14">Повторите пароль</div>
-              <div class="div-15">*****</div>
+              <input v-model="confirmPassword" class="div-15" type="password" placeholder="Повторите пароль">
             </div>
-            <div class="div-16">Продолжить</div>
+            <div class="div-16" @click="continueRegistration">Продолжить</div>
           </div>
         </div>
       </div>
@@ -31,9 +31,30 @@
 
 <script>
 export default {
-  name: 'RegPass'
-}
+  name: 'RegPass',
+  data() {
+    return {
+      password: '',
+      confirmPassword: ''
+    };
+  },
+  methods: {
+    continueRegistration() {
+      // Проверка паролей и переход к следующему шагу
+      if (this.password !== this.confirmPassword) {
+        alert('Пароли не совпадают');
+        return;
+      }
+      // Здесь может быть логика сохранения пароля и перехода к следующему шагу (например, RegFinal)
+      this.$router.push({ name: 'RegFinal' });
+    }
+  }
+};
 </script>
+
+<style scoped>
+/* Ваши стили остаются без изменений */
+</style>
 
 <style scoped>
 .div {

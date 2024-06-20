@@ -18,12 +18,14 @@
             </div>
             <div class="div-10">
               <div class="div-11">Телефон</div>
-              <div class="div-12">+7 (900) 000 00 00</div>
+              <input v-model="phone" class="div-12" type="text" placeholder="+7 (900) 000 00 00">
             </div>
-            <div class="div-13">Получить смс-код</div>
+            <!-- Кнопка "Получить смс-код" с переходом на страницу RegPass -->
+            <div class="div-13" @click="sendSmsCode">Получить смс-код</div>
+            <!-- Кнопка "Войти" -->
             <div class="div-14">
               <div class="div-15">У вас уже есть аккаунт?</div>
-              <div class="div-16">Войти</div>
+              <div class="div-16" @click="redirectToLogin">Войти</div>
             </div>
           </div>
         </div>
@@ -34,9 +36,26 @@
 
 <script>
 export default {
-  name: 'RegPhone'
-}
+  name: 'RegPhone',
+  data() {
+    return {
+      phone: '' // Поле для хранения номера телефона
+    };
+  },
+  methods: {
+    sendSmsCode() {
+      // Здесь можно добавить логику отправки SMS кода
+      // В данном случае просто переходим на страницу RegPass
+      this.$router.push({ name: 'RegPass' });
+    },
+    redirectToLogin() {
+      // Переход на страницу LoginMenu при клике на "Войти"
+      this.$router.push({ name: 'LoginMenu' });
+    }
+  }
+};
 </script>
+
 
 <style scoped>
 .div {

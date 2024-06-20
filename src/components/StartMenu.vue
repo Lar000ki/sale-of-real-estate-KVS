@@ -15,12 +15,12 @@
               Добро пожаловать <br />на портал «Luxury Home»
             </div>
             <div class="div-9">
-              Зарегистрируйтесь или войдите в свою учетную запись, чтобы начать
-              пользоваться функционалом портала
+              Пользуйтесь нашим порталом, зарегистрировавшись или войдя в свою учетную запись
             </div>
             <div class="div-10">
+              <!-- Используем компоненты формы входа и регистрации вместо ссылок -->
               <router-link to="/login" class="div-11">Войти</router-link>
-              <router-link to="/register" class="div-12">Зарегистрироваться</router-link>
+              <router-link to="/regphone" class="div-12">Зарегистрироваться</router-link>
             </div>
           </div>
         </div>
@@ -32,9 +32,8 @@
 <script>
 export default {
   name: 'StartMenu'
-}
+};
 </script>
-
 <style scoped>
 .div {
   justify-content: center;
@@ -42,182 +41,79 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.div-2 {
-  justify-content: space-between;
-  background-color: var(--GreyDarkMain, #292f36);
-  display: flex;
-  width: 100%;
-  gap: 20px;
-  font-size: 18px;
-  color: var(--White, #fff);
-  font-weight: 700;
-  line-height: 133%;
-  padding: 0 24px;
-}
-@media (max-width: 991px) {
-  .div-2 {
-    max-width: 100%;
-    flex-wrap: wrap;
-    padding: 0 20px;
-  }
-}
-.img {
-  aspect-ratio: 3.7;
-  object-fit: auto;
-  object-position: center;
-  width: 200px;
-  max-width: 100%;
-  margin: auto 0;
-}
-.div-3 {
-  display: flex;
-  gap: 16px;
-  padding: 23px 0;
-}
-.img-2 {
-  aspect-ratio: 1;
-  object-fit: auto;
-  object-position: center;
-  width: 24px;
-}
-.div-4 {
-  font-family: PT Root UI, sans-serif;
-}
+
 .div-5 {
   width: 100%;
 }
-@media (max-width: 991px) {
-  .div-5 {
-    max-width: 100%;
-  }
-}
+
 .div-6 {
+  display: flex;
   gap: 20px;
-  display: flex;
 }
-@media (max-width: 991px) {
-  .div-6 {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0px;
-  }
-}
+
 .column {
-  display: flex;
-  flex-direction: column;
-  line-height: normal;
   width: 50%;
-  margin-left: 0px;
 }
-@media (max-width: 991px) {
-  .column {
-    width: 100%;
-  }
-}
+
 .img-3 {
-  aspect-ratio: 0.95;
-  object-fit: auto;
-  object-position: center;
   width: 100%;
-  align-self: stretch;
-  flex-grow: 1;
+  max-width: 100%;
 }
-@media (max-width: 991px) {
-  .img-3 {
-    max-width: 100%;
-  }
-}
+
 .column-2 {
+  width: 50%;
+}
+
+.div-7 {
   display: flex;
   flex-direction: column;
-  line-height: normal;
-  width: 50%;
-  margin-left: 20px;
-}
-@media (max-width: 991px) {
-  .column-2 {
-    width: 100%;
-  }
-}
-.div-7 {
   justify-content: center;
   align-items: center;
-  align-self: stretch;
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  font-size: 18px;
-  font-weight: 700;
   padding: 80px 80px 70px;
+  text-align: center;
 }
-@media (max-width: 991px) {
-  .div-7 {
-    max-width: 100%;
-    padding: 0 20px;
-  }
-}
+
 .div-8 {
   color: var(--GreyDarkMain, #292f36);
-  margin-top: 251px;
-  font: 42px PT Root UI, sans-serif;
+  font-size: 42px;
+  font-family: PT Root UI, sans-serif;
+  margin-top: 40px;
 }
-@media (max-width: 991px) {
-  .div-8 {
-    max-width: 100%;
-    margin-top: 40px;
-  }
-}
+
 .div-9 {
   color: var(--GreyDarkMain, #292f36);
   font-family: PT Root UI, sans-serif;
   font-weight: 400;
   margin-top: 24px;
-  width: 470px;
+  max-width: 470px;
 }
-@media (max-width: 991px) {
-  .div-9 {
-    max-width: 100%;
-  }
-}
+
 .div-10 {
   display: flex;
   margin-top: 60px;
-  width: 494px;
-  max-width: 100%;
   gap: 20px;
-  white-space: nowrap;
-  text-align: center;
-  letter-spacing: 0.36px;
-  line-height: 133%;
+  justify-content: center;
+  align-items: center;
 }
-@media (max-width: 991px) {
-  .div-10 {
-    flex-wrap: wrap;
-    margin-top: 40px;
-    white-space: initial;
-  }
-}
-.div-11 {
-  font-feature-settings: "clig" off, "liga" off;
+
+.div-11,
+.div-12 {
   font-family: PT Root UI, sans-serif;
+  font-feature-settings: "clig" off, "liga" off;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
+  padding: 13px 28px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.div-11 {
   background-color: var(--Accent, #008ad7);
   color: #fff;
-  flex: 1;
-  padding: 13px 28px;
 }
-@media (max-width: 991px) {
-  .div-11 {
-    white-space: initial;
-    padding: 0 20px;
-  }
-}
+
 .div-12 {
   color: var(--Accent, #008ad7);
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
-  margin: auto 0;
 }
 </style>
