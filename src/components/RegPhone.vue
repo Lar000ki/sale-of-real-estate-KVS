@@ -124,51 +124,33 @@ export default {
     gap: 0px;
   }
 }
+/* Стили для .column */
 .column {
-  display: flex;
-  flex-direction: column;
-  line-height: normal;
-  width: 50%;
-  margin-left: 0px;
+  width: 50%; /* Ширина 50% */
 }
-@media (max-width: 991px) {
-  .column {
-    width: 100%;
-  }
-}
+
+/* Стили для .img-3 */
 .img-3 {
-  aspect-ratio: 0.95;
-  object-fit: auto;
-  object-position: center;
-  width: 100%;
-  align-self: stretch;
-  flex-grow: 1;
+  width: 100%; /* Занимает всю ширину колонки */
+  max-width: 100%; /* Максимальная ширина 100% */
 }
-@media (max-width: 991px) {
-  .img-3 {
-    max-width: 100%;
-  }
-}
+/* Стили для .column-2 */
 .column-2 {
-  display: flex;
-  flex-direction: column;
-  line-height: normal;
-  width: 50%;
-  margin-left: 20px;
-}
-@media (max-width: 991px) {
-  .column-2 {
-    width: 100%;
-  }
+  width: 50%; /* Ширина 50% */
+  display: flex; /* Использование flexbox */
+  justify-content: flex-start; /* Выравнивание по левому краю */
+  align-items: flex-start; /* Выравнивание по левому краю */
 }
 .div-7 {
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   align-self: stretch;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  padding: 80px 80px 70px;
+  color: var(--GreyDarkMain, #292f36);
+  padding: 170px 80px 70px;
+  margin-left: 150px;
 }
 @media (max-width: 991px) {
   .div-7 {
@@ -208,7 +190,7 @@ export default {
 }
 .div-11 {
   color: var(--GreyDarkMain, #292f36);
-  text-align: center;
+  text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;

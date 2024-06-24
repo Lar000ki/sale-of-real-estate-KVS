@@ -24,7 +24,7 @@
             <div class="div-16" @click="login">Войти</div>
             <div class="div-17">
               <div class="div-18">Нет аккаунта?</div>
-              <router-link to="/register" class="div-19">Зарегистрироваться</router-link>
+              <router-link to="/regphone" class="div-19">Зарегистрироваться</router-link>
             </div>
           </div>
         </div>
@@ -46,6 +46,10 @@ export default {
     login() {
       // Переходим на страницу ObjectsMenu после успешного логина
       this.$router.push({ name: 'ObjectsMenu' });
+    },
+    regphone() {
+      // Переходим на страницу регистрации
+      this.$router.push({ name: 'RegPhone' });
     }
   }
 };
@@ -53,149 +57,180 @@ export default {
 
 
 <style scoped>
+/* Стили для контейнера .div */
 .div {
-  justify-content: center;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  background-color: #fff; /* Белый фон */
+  display: flex; /* Отображаем элемент как flex-контейнер */
+  flex-direction: column; /* Располагаем элементы в колонку */
 }
+
+/* Стили для .div-5 */
 .div-5 {
-  width: 100%;
+  width: 100%; /* Ширина 100% */
 }
+
+/* Стили для .div-6 */
 .div-6 {
-  gap: 20px;
-  display: flex;
+  gap: 20px; /* Расстояние между элементами 20 пикселей */
+  display: flex; /* Отображаем элемент как flex-контейнер */
 }
+
+/* Стили для .column */
 .column {
-  display: flex;
-  flex-direction: column;
-  line-height: normal;
-  width: 50%;
-  margin-left: 0px;
+  width: 50%; /* Ширина 50% */
 }
+
+/* Стили для .img-3 */
 .img-3 {
-  aspect-ratio: 0.95;
-  object-fit: auto;
-  object-position: center;
-  width: 100%;
-  align-self: stretch;
-  flex-grow: 1;
+  width: 100%; /* Занимает всю ширину колонки */
+  max-width: 100%; /* Максимальная ширина 100% */
 }
+/* Стили для .column-2 */
 .column-2 {
-  display: flex;
-  flex-direction: column;
-  line-height: normal;
-  width: 50%;
-  margin-left: 20px;
+  width: 50%; /* Ширина 50% */
+  display: flex; /* Использование flexbox */
+  justify-content: flex-start; /* Выравнивание по левому краю */
+  align-items: flex-start; /* Выравнивание по левому краю */
 }
+
+/* Стили для .div-7 */
 .div-7 {
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  padding: 80px 80px 70px;
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  align-items: left; /* Центрируем содержимое по вертикали */
+  align-self: stretch; /* Растягиваем элемент по вертикали */
+  display: flex; /* Отображаем элемент как flex-контейнер */
+  flex-grow: 1; /* Растягиваем элемент по вертикали */
+  flex-direction: column; /* Располагаем элементы в колонку */
+  padding: 80px 80px 70px; /* Внутренний отступ: сверху 80 пикселей, справа 80 пикселей, снизу 70 пикселей */
+  margin-left: 150px;
 }
+
+/* Стили для .div-8 */
 .div-8 {
-  color: var(--GreyDarkMain, #292f36);
-  margin-top: 154px;
-  font: 700 42px PT Root UI, sans-serif;
+  color: var(--GreyDarkMain, #292f36); /* Цвет текста с использованием CSS переменной или #292f36 */
+  margin-top: 154px; /* Отступ сверху 154 пикселя */
+  font: 700 42px PT Root UI, sans-serif; /* Жирный шрифт, размер 42 пикселя, семейство шрифтов PT Root UI */
+  text-align: left; /* Выравнивание текста по левому краю */
 }
+
+/* Стили для .div-9 */
 .div-9 {
-  color: var(--GreyDarkMain, #292f36);
-  margin-top: 24px;
-  font: 400 18px PT Root UI, sans-serif;
+  color: var(--GreyDarkMain, #292f36); /* Цвет текста с использованием CSS переменной или #292f36 */
+  margin-top: 24px; /* Отступ сверху 24 пикселя */
+  font: 400 18px PT Root UI, sans-serif; /* Нормальный шрифт, размер 18 пикселей, семейство шрифтов PT Root UI */
+  text-align: left; /* Выравнивание текста по левому краю */
 }
+
+
+/* Стили для .div-10 */
 .div-10 {
-  background-color: #fff;
-  display: flex;
-  margin-top: 28px;
-  width: 470px;
-  max-width: 100%;
-  flex-direction: column;
+  background-color: #fff; /* Белый фон */
+  display: flex; /* Отображаем элемент как flex-контейнер */
+  margin-top: 28px; /* Отступ сверху 28 пикселей */
+  width: 470px; /* Ширина 470 пикселей */
+  max-width: 100%; /* Максимальная ширина 100% */
+  flex-direction: column; /* Располагаем элементы в колонку */
 }
+
+/* Стили для .div-11 */
 .div-11 {
-  color: var(--GreyDarkMain, #292f36);
-  text-align: center;
-  font-feature-settings: "clig" off, "liga" off;
-  letter-spacing: 0.32px;
-  font: 700 16px PT Root UI, sans-serif;
+  color: var(--GreyDarkMain, #292f36); /* Цвет текста с использованием CSS переменной или #292f36 */
+  text-align: left; /* Выравнивание текста по центру */
+  font-feature-settings: "clig" off, "liga" off; /* Отключаем опции OpenType */
+  letter-spacing: 0.32px; /* Межбуквенный интервал 0.32 пикселя */
+  font: 700 16px PT Root UI, sans-serif; /* Жирный шрифт, размер 16 пикселей, семейство шрифтов PT Root UI */
 }
+
+/* Стили для .div-12 */
 .div-12 {
-  align-items: start;
-  border-radius: 4px;
-  background-color: var(--GreyLight_L, #f4f5f6);
-  margin-top: 8px;
-  color: #b0b2b6;
-  justify-content: center;
-  padding: 12px;
-  font: 500 18px PT Root UI, sans-serif;
+  align-items: start; /* Выравнивание содержимого по началу */
+  border-radius: 4px; /* Радиус скругления углов 4 пикселя */
+  background-color: var(--GreyLight_L, #f4f5f6); /* Фон с использованием CSS переменной или #f4f5f6 */
+  margin-top: 8px; /* Отступ сверху 8 пикселей */
+  color: #b0b2b6; /* Цвет текста #b0b2b6 */
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  padding: 12px; /* Внутренний отступ 12 пикселей */
+  font: 500 18px PT Root UI, sans-serif; /* Нормальный шрифт, размер 18 пикселей, семейство шрифтов PT Root UI */
 }
+
+/* Стили для .div-13 */
 .div-13 {
-  background-color: #fff;
-  display: flex;
-  margin-top: 24px;
-  width: 470px;
-  max-width: 100%;
-  flex-direction: column;
-  white-space: nowrap;
+  background-color: #fff; /* Белый фон */
+  display: flex; /* Отображаем элемент как flex-контейнер */
+  margin-top: 24px; /* Отступ сверху 24 пикселя */
+  width: 470px; /* Ширина 470 пикселей */
+  max-width: 100%; /* Максимальная ширина 100% */
+  flex-direction: column; /* Располагаем элементы в колонку */
+  white-space: nowrap; /* Не переносить текст */
 }
+
+/* Стили для .div-14 */
 .div-14 {
-  color: var(--GreyDarkMain, #292f36);
-  text-align: center;
-  font-feature-settings: "clig" off, "liga" off;
-  letter-spacing: 0.32px;
-  font: 700 16px PT Root UI, sans-serif;
+  color: var(--GreyDarkMain, #292f36); /* Цвет текста с использованием CSS переменной или #292f36 */
+  text-align: left; /* Выравнивание текста по центру */
+  font-feature-settings: "clig" off, "liga" off; /* Отключаем опции OpenType */
+  letter-spacing: 0.32px; /* Межбуквенный интервал 0.32 пикселя */
+  font: 700 16px PT Root UI, sans-serif; /* Жирный шрифт, размер 16 пикселей, семейство шрифтов PT Root UI */
 }
+
+/* Стили для .div-15 */
 .div-15 {
-  align-items: start;
-  border-radius: 4px;
-  background-color: var(--GreyLight_L, #f4f5f6);
-  margin-top: 8px;
-  color: #b0b2b6;
-  justify-content: center;
-  padding: 12px;
-  font: 500 18px PT Root UI, sans-serif;
+  align-items: start; /* Выравнивание содержимого по началу */
+  border-radius: 4px; /* Радиус скругления углов 4 пикселя */
+  background-color: var(--GreyLight_L, #f4f5f6); /* Фон с использованием CSS переменной или #f4f5f6 */
+  margin-top: 8px; /* Отступ сверху 8 пикселей */
+  color: #b0b2b6; /* Цвет текста #b0b2b6 */
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  padding: 12px; /* Внутренний отступ 12 пикселей */
+  font: 500 18px PT Root UI, sans-serif; /* Нормальный шрифт, размер 18 пикселей, семейство шрифтов PT Root UI */
 }
+
+/* Стили для .div-16 */
 .div-16 {
-  font-feature-settings: "clig" off, "liga" off;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background-color: var(--Accent, #008ad7);
-  margin-top: 24px;
-  width: 470px;
-  max-width: 100%;
-  color: #fff;
-  white-space: nowrap;
-  text-align: center;
-  letter-spacing: 0.36px;
-  padding: 13px 28px;
-  font: 700 18px/133% PT Root UI, sans-serif;
+  font-feature-settings: "clig" off, "liga" off; /* Отключаем опции OpenType */
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  align-items: center; /* Центрируем содержимое по вертикали */
+  border-radius: 4px; /* Радиус скругления углов 4 пикселя */
+  background-color: var(--Accent, #008ad7); /* Фон с использованием CSS переменной или #008ad7 */
+  margin-top: 24px; /* Отступ сверху 24 пикселя */
+  width: 470px; /* Ширина 470 пикселей */
+  max-width: 100%; /* Максимальная ширина 100% */
+  color: #fff; /* Белый цвет текста */
+  white-space: nowrap; /* Не переносить текст */
+  text-align: center; /* Выравнивание текста по центру */
+  letter-spacing: 0.36px; /* Межбуквенный интервал 0.36 пикселя */
+  padding: 13px 28px; /* Внутренний отступ: сверху 13 пикселей, справа 28 пикселей */
+  font: 700 18px/133% PT Root UI, sans-serif; /* Жирный шрифт, размер 18 пикселей, семейство шрифтов PT Root UI */
 }
+
+/* Стили для .div-17 */
 .div-17 {
-  display: flex;
-  margin-top: 60px;
-  width: 470px;
-  max-width: 100%;
-  gap: 20px;
-  font-size: 18px;
-  text-align: center;
-  letter-spacing: 0.36px;
-  line-height: 133%;
-  justify-content: space-between;
+  display: flex; /* Отображаем элемент как flex-контейнер */
+  margin-top: 60px; /* Отступ сверху 60 пикселей */
+  width: 470px; /* Ширина 470 пикселей */
+  max-width: 100%; /* Максимальная ширина 100% */
+  gap: 20px; /* Расстояние между элементами 20 пикселей */
+  font-size: 18px; /* Размер шрифта 18 пикселей */
+  text-align: center; /* Выравнивание текста по центру */
+  letter-spacing: 0.36px; /* Межбуквенный интервал 0.36 пикселя */
+  line-height: 133%; /* Межстрочный интервал 133% */
+  justify-content: space-between; /* Равномерное распределение элементов по контейнеру */
 }
+
+/* Стили для .div-18 */
 .div-18 {
-  color: #000;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
-  font-weight: 400;
+  color: #000; /* Черный цвет текста */
+  font-feature-settings: "clig" off, "liga" off; /* Отключаем опции OpenType */
+  font-family: PT Root UI, sans-serif; /* Семейство шрифтов PT Root UI */
+  font-weight: 400; /* Нормальная толщина шрифта */
 }
+
+/* Стили для .div-19 */
 .div-19 {
-  color: var(--Accent, #008ad7);
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
-  font-weight: 700;
+  color: var(--Accent, #008ad7); /* Цвет текста с использованием CSS переменной или #008ad7 */
+  font-feature-settings: "clig" off, "liga" off; /* Отключаем опции OpenType */
+  font-family: PT Root UI, sans-serif; /* Семейство шрифтов PT Root UI */
+  font-weight: 700; /* Жирная толщина шрифта */
 }
 </style>

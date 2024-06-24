@@ -148,12 +148,12 @@ export default {
   font-family: PT Root UI, sans-serif;
 }
 .div-12 {
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding: 70px 80px;
+  padding: 130px 100px 70px;
 }
 @media (max-width: 991px) {
   .div-12 {
@@ -228,7 +228,7 @@ export default {
   }
 }
 .div-18 {
-  text-align: center;
+  text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
@@ -268,7 +268,7 @@ export default {
   }
 }
 .div-21 {
-  text-align: center;
+  text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
@@ -306,7 +306,7 @@ export default {
   }
 }
 .div-24 {
-  text-align: center;
+  text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
@@ -365,7 +365,7 @@ export default {
   }
 }
 .div-28 {
-  text-align: center;
+  text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
@@ -404,7 +404,7 @@ export default {
   }
 }
 .div-31 {
-  text-align: center;
+  text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
@@ -415,12 +415,12 @@ export default {
   }
 }
 .div-32 {
-  align-items: start;
+  align-items: left;
   border-radius: 4px;
   background-color: var(--GreyLight_L, #f4f5f6);
   margin-top: 8px;
   white-space: nowrap;
-  justify-content: center;
+  justify-content: left;
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
 }
@@ -442,7 +442,8 @@ export default {
   letter-spacing: 0.36px;
   line-height: 133%;
   justify-content: space-between;
-  margin: 24px 0 332px 70px;
+  margin-left: 24px 0 332px 70px;
+  padding: 40px 000px 0px;
 }
 @media (max-width: 991px) {
   .div-33 {
@@ -453,7 +454,7 @@ export default {
 .div-34 {
   font-feature-settings: "clig" off, "liga" off;
   font-family: PT Root UI, sans-serif;
-  justify-content: center;
+  justify-content: start;
   border-radius: 4px;
   background-color: var(--Accent, #008ad7);
   color: #fff;
