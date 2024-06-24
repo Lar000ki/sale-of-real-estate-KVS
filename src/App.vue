@@ -1,66 +1,56 @@
 <template>
-  <div>
-    <HeaderComponent />
-    <component :is="currentPageComponent" />
-    <nav class="navigation">
-      <button @click="changePage('StartMenu')">StartMenu</button>
-      <button @click="changePage('LoginMenu')">LoginMenu</button>
-      <button @click="changePage('ObjectsMenu')">ObjectsMenu</button>
-      <button @click="changePage('ProfileMenu')">ProfileMenu</button>
-      <button @click="changePage('RegPass')">RegPass</button>
-      <button @click="changePage('RegPhone')">RegPhone</button>
-      <button @click="changePage('RegPhone2')">RegPhone2</button>
-      <button @click="changePage('RegFinal')">RegFinal</button>
-    </nav>
-  </div>
   <div id="app">
+    <HeaderComponent />
     <router-view />
+    <nav class="navigation">
+      <button @click="navigateTo('StartMenu')">StartMenu</button>
+      <button @click="navigateTo('LoginMenu')">LoginMenu</button>
+      <button @click="navigateTo('ObjectsMenu')">ObjectsMenu</button>
+      <button @click="navigateTo('ProfileMenu')">ProfileMenu</button>
+      <button @click="navigateTo('RegPass')">RegPass</button>
+      <button @click="navigateTo('RegPhone')">RegPhone</button>
+      <button @click="navigateTo('RegPhone2')">RegPhone2</button>
+      <button @click="navigateTo('RegFinal')">RegFinal</button>
+    </nav>
   </div>
 </template>
 
 <script>
 import HeaderComponent from './components/Header.vue';
-import StartMenu from './components/StartMenu.vue';
-import LoginMenu from './components/LoginMenu.vue';
-import ObjectsMenu from './components/ObjectsMenu.vue';
-import ProfileMenu from './components/ProfileMenu.vue';
-import RegPass from './components/RegPass.vue';
-import RegPhone from './components/RegPhone.vue';
-import RegPhone2 from './components/RegPhone2.vue';
-import RegFinal from './components/RegFinal.vue';
 
 export default {
   name: 'App',
   components: {
-    HeaderComponent,
-    StartMenu,
-    LoginMenu,
-    ObjectsMenu,
-    ProfileMenu,
-    RegPass,
-    RegPhone,
-    RegPhone2,
-    RegFinal
-  },
-  data() {
-    return {
-      currentPage: 'StartMenu'
-    };
-  },
-  computed: {
-    currentPageComponent() {
-      return this.currentPage;
-    }
+    HeaderComponent
   },
   methods: {
-    changePage(page) {
-      this.currentPage = page;
+    navigateTo(page) {
+      this.$router.push({ name: page });
     }
   }
 };
 </script>
 
 <style>
+/* Reset margins and paddings for all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+/* Additional styling for navigation and header */
+.navigation {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
