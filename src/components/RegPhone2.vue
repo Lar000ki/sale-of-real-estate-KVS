@@ -53,89 +53,33 @@ export default {
 
 
 <style scoped>
-.div {
-  justify-content: center;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-}
-.div-2 {
-  justify-content: space-between;
-  background-color: var(--GreyDarkMain, #292f36);
-  display: flex;
-  width: 100%;
-  gap: 20px;
-  font-size: 18px;
-  color: var(--White, #fff);
-  font-weight: 700;
-  line-height: 133%;
-  padding: 0 24px;
-}
-@media (max-width: 991px) {
-  .div-2 {
-    max-width: 100%;
-    flex-wrap: wrap;
-    padding: 0 20px;
-  }
-}
-.img {
-  aspect-ratio: 3.7;
-  object-fit: auto;
-  object-position: center;
-  width: 200px;
-  max-width: 100%;
-  margin: auto 0;
-}
-.div-3 {
-  display: flex;
-  gap: 16px;
-  padding: 23px 0;
-}
-.img-2 {
-  aspect-ratio: 1;
-  object-fit: auto;
-  object-position: center;
-  width: 24px;
-}
-.div-4 {
-  font-family: PT Root UI, sans-serif;
-}
-.div-5 {
-  width: 100%;
-}
-@media (max-width: 991px) {
-  .div-5 {
-    max-width: 100%;
-  }
-}
+/* Контейнер для колонок */
 .div-6 {
-  gap: 20px;
-  display: flex;
+  display: flex; /* Использование flexbox */
+  gap: 20px; /* Расстояние между колонками */
+  justify-content: center; /* Центрирование по горизонтали */
+  align-items: center; /* Центрирование по вертикали */
 }
-@media (max-width: 991px) {
-  .div-6 {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0px;
-  }
-}
-/* Стили для .column */
+
+/* Левая колонка */
 .column {
   width: 50%; /* Ширина 50% */
 }
 
-/* Стили для .img-3 */
+/* Изображение */
 .img-3 {
   width: 100%; /* Занимает всю ширину колонки */
   max-width: 100%; /* Максимальная ширина 100% */
 }
-/* Стили для .column-2 */
+
+/* Правая колонка */
 .column-2 {
   width: 50%; /* Ширина 50% */
   display: flex; /* Использование flexbox */
   justify-content: flex-start; /* Выравнивание по левому краю */
   align-items: flex-start; /* Выравнивание по левому краю */
 }
+
 .div-7 {
   justify-content: left;
   align-items: left;
