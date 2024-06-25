@@ -1,6 +1,4 @@
 <template>
-  <div class="div">
-    <div class="div-5">
       <div class="div-6">
         <div class="column">
           <img
@@ -25,8 +23,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -53,85 +49,26 @@ export default {
 </script>
 
 <style scoped>
-/* Ваши стили остаются без изменений */
-</style>
-
-<style scoped>
-.div {
-  justify-content: center;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-}
-.div-2 {
-  justify-content: space-between;
-  background-color: var(--GreyDarkMain, #292f36);
-  display: flex;
-  width: 100%;
-  gap: 20px;
-  font-size: 18px;
-  color: var(--White, #fff);
-  font-weight: 700;
-  line-height: 133%;
-  padding: 0 24px;
-}
-@media (max-width: 991px) {
-  .div-2 {
-    max-width: 100%;
-    flex-wrap: wrap;
-    padding: 0 20px;
-  }
-}
-.img {
-  aspect-ratio: 3.7;
-  object-fit: auto;
-  object-position: center;
-  width: 200px;
-  max-width: 100%;
-  margin: auto 0;
-}
-.div-3 {
-  display: flex;
-  gap: 16px;
-  padding: 23px 0;
-}
-.img-2 {
-  aspect-ratio: 1;
-  object-fit: auto;
-  object-position: center;
-  width: 24px;
-}
-.div-4 {
-  font-family: PT Root UI, sans-serif;
-}
-.div-5 {
-  width: 100%;
-}
-@media (max-width: 991px) {
-  .div-5 {
-    max-width: 100%;
-  }
-}
 .div-6 {
   gap: 20px;
   display: flex;
 }
-/* Стили для .column */
+
 .column {
-  width: 50%; /* Ширина 50% */
+  width: 50%; 
 }
 
-/* Стили для .img-3 */
+
 .img-3 {
-  width: 100%; /* Занимает всю ширину колонки */
-  max-width: 100%; /* Максимальная ширина 100% */
+  width: 100%; 
+  max-width: 100%; 
 }
-/* Стили для .column-2 */
+
 .column-2 {
-  width: 50%; /* Ширина 50% */
-  display: flex; /* Использование flexbox */
-  justify-content: flex-start; /* Выравнивание по левому краю */
-  align-items: flex-start; /* Выравнивание по левому краю */
+  width: 50%; 
+  display: flex; 
+  justify-content: flex-start; 
+  align-items: flex-start; 
 }
 .div-7 {
   justify-content: left;
@@ -141,59 +78,36 @@ export default {
   flex-grow: 1;
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
-  padding: 170px 80px 70px;
-  margin-left: 150px;
+  margin-left: 10vw;
+  margin-top:30vh;
 }
-@media (max-width: 991px) {
-  .div-7 {
-    max-width: 100%;
-    padding: 0 20px;
-  }
-}
+
 .div-8 {
-  margin-top: 196px;
   font: 700 42px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-8 {
-    max-width: 100%;
-    margin-top: 40px;
-  }
-}
+
 .div-9 {
-  margin-top: 24px;
+  margin-top: 1vw;
   font: 400 18px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-9 {
-    max-width: 100%;
-  }
-}
+
 .div-10 {
   background-color: #fff;
   display: flex;
-  margin-top: 28px;
+  margin-top: 1vw;
   width: 470px;
   max-width: 100%;
   flex-direction: column;
   white-space: nowrap;
 }
-@media (max-width: 991px) {
-  .div-10 {
-    white-space: initial;
-  }
-}
+
 .div-11 {
   text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-11 {
-    max-width: 100%;
-  }
-}
+
 .div-12 {
   align-items: start;
   border-radius: 4px;
@@ -203,13 +117,7 @@ export default {
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-12 {
-    max-width: 100%;
-    padding-right: 20px;
-    white-space: initial;
-  }
-}
+
 .div-13 {
   background-color: #fff;
   display: flex;
@@ -218,16 +126,13 @@ export default {
   max-width: 100%;
   flex-direction: column;
 }
+
 .div-14 {
   text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
-}
-@media (max-width: 991px) {
-  .div-14 {
-    max-width: 100%;
-  }
+
 }
 .div-15 {
   align-items: start;
@@ -239,13 +144,7 @@ export default {
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-15 {
-    max-width: 100%;
-    padding-right: 20px;
-    white-space: initial;
-  }
-}
+
 .div-16 {
   font-feature-settings: "clig" off, "liga" off;
   justify-content: center;
@@ -262,10 +161,5 @@ export default {
   padding: 13px 28px;
   font: 700 18px/133% PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-16 {
-    white-space: initial;
-    padding: 0 20px;
-  }
-}
+
 </style>

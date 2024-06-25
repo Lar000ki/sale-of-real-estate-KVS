@@ -1,4 +1,5 @@
 <template>
+  <div>
     <header>
       <div class="left-content">
         <img
@@ -16,56 +17,81 @@
         <div class="login-text">Войти / Зарегистрироваться</div>
       </div>
     </header>
-  </template>
-  
-  <script>
-  export default {
-    name: 'HeaderComponent' // Название компонента изменено на многословное
-  };
-  </script>
-  
-  <style scoped>
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #2c2f34;
-    color: white;
-  }
-  .logo img {
-    height: 40px;
-  }
-  .nav-icons {
-    display: flex;
-    align-items: center;
-  }
-  .user-icon, .logout-icon {
-    margin-right: 10px;
-    /* Добавьте стили для ваших иконок */
-  }
-  .logout-button {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-  .left-content {
-    display: flex;
-    align-items: center;
-  }
-  .logo {
-    margin-right: 20px;
-  }
-  .right-content {
-    display: flex;
-    align-items: center;
-  }
-  .user-icon {
-    margin-right: 10px;
-  }
-  .login-text {
-    margin-left: 10px;
-  }
-  </style>
-  
+    <main class="content">
+    </main>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HeaderComponent' 
+};
+</script>
+
+<style scoped>
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 13vh; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1vh 1vw; 
+  box-sizing: border-box;
+  background-color: #2c2f34;
+  color: white;
+  z-index: 1000;
+}
+
+body {
+  margin: 0;
+}
+
+.content {
+  padding-top: 13vh; 
+}
+
+.logo img {
+  height: 8vh;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+}
+
+.user-icon, .logout-icon {
+  margin-right: 1vw;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.left-content {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 2vw;
+}
+
+.right-content {
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
+  margin-right: 1vw;
+}
+
+.login-text {
+  margin-left: 1vw;
+}
+</style>

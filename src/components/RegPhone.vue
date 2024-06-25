@@ -1,6 +1,4 @@
 <template>
-  <div class="div">
-    <div class="div-5">
       <div class="div-6">
         <div class="column">
           <img
@@ -30,8 +28,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -58,31 +54,28 @@ export default {
 
 
 <style scoped>
-/* Контейнер для колонок */
 .div-6 {
-  display: flex; /* Использование flexbox */
-  gap: 20px; /* Расстояние между колонками */
-  justify-content: center; /* Центрирование по горизонтали */
-  align-items: center; /* Центрирование по вертикали */
+  display: flex; 
+  gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
 }
 
-/* Левая колонка */
 .column {
-  width: 50%; /* Ширина 50% */
+  width: 50%; 
 }
 
-/* Изображение */
+
 .img-3 {
-  width: 100%; /* Занимает всю ширину колонки */
-  max-width: 100%; /* Максимальная ширина 100% */
+  width: 100%; 
+  max-width: 100%; 
 }
 
-/* Правая колонка */
 .column-2 {
-  width: 50%; /* Ширина 50% */
-  display: flex; /* Использование flexbox */
-  justify-content: flex-start; /* Выравнивание по левому краю */
-  align-items: flex-start; /* Выравнивание по левому краю */
+  width: 50%; 
+  display: flex; 
+  justify-content: flex-start; 
+  align-items: flex-start; 
 }
 
 .div-7 {
@@ -93,41 +86,24 @@ export default {
   flex-grow: 1;
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
-  padding: 170px 80px 70px;
-  margin-left: 150px;
+  margin-left: 10vw;
 }
-@media (max-width: 991px) {
-  .div-7 {
-    max-width: 100%;
-    padding: 0 20px;
-  }
-}
+
 .div-8 {
   color: var(--GreyDarkMain, #292f36);
-  margin-top: 197px;
   font: 700 42px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-8 {
-    max-width: 100%;
-    margin-top: 40px;
-  }
-}
+
 .div-9 {
   color: var(--GreyDarkMain, #292f36);
-  margin-top: 24px;
-  width: 470px;
+  margin-top: 1vw;
   font: 400 18px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-9 {
-    max-width: 100%;
-  }
-}
+
 .div-10 {
   background-color: #fff;
   display: flex;
-  margin-top: 28px;
+  margin-top:1vw;
   width: 470px;
   max-width: 100%;
   flex-direction: column;
@@ -139,50 +115,38 @@ export default {
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-11 {
-    max-width: 100%;
-  }
-}
+
 .div-12 {
   align-items: start;
   border-radius: 4px;
   background-color: var(--GreyLight_L, #f4f5f6);
   margin-top: 8px;
+  padding: 12px;
   color: #b0b2b6;
   justify-content: center;
-  padding: 12px;
+
   font: 500 18px PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-12 {
-    max-width: 100%;
-    padding-right: 20px;
-  }
-}
+
 .div-13 {
   font-feature-settings: "clig" off, "liga" off;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   background-color: var(--Accent, #008ad7);
-  margin-top: 24px;
+  margin-top: 1vw;
+  padding: 12px;
   width: 470px;
   max-width: 100%;
   color: #fff;
   text-align: center;
   letter-spacing: 0.36px;
-  padding: 13px 28px;
   font: 700 18px/133% PT Root UI, sans-serif;
 }
-@media (max-width: 991px) {
-  .div-13 {
-    padding: 0 20px;
-  }
-}
+
 .div-14 {
   display: flex;
-  margin-top: 60px;
+  margin-top: 1vw;
   width: 470px;
   max-width: 100%;
   gap: 20px;
@@ -192,12 +156,7 @@ export default {
   line-height: 133%;
   justify-content: space-between;
 }
-@media (max-width: 991px) {
-  .div-14 {
-    flex-wrap: wrap;
-    margin-top: 40px;
-  }
-}
+
 .div-15 {
   color: #000;
   font-feature-settings: "clig" off, "liga" off;
