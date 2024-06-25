@@ -34,7 +34,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 13vh; 
+  height: 10vh; 
   display: flex;
   justify-content: space-between;
   align-items: center;

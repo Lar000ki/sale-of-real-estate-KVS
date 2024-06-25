@@ -52,6 +52,7 @@ export default {
 .div-6 {
   gap: 20px;
   display: flex;
+  margin-top: -3vh;
 }
 
 .column {
@@ -79,11 +80,12 @@ export default {
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
   margin-left: 10vw;
-  margin-top:30vh;
+  margin-top:15vh;
 }
 
 .div-8 {
   font: 700 42px PT Root UI, sans-serif;
+  margin-top: 1vw;
 }
 
 .div-9 {

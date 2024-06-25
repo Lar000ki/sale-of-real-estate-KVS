@@ -59,6 +59,7 @@ export default {
   gap: 20px; 
   justify-content: center; 
   align-items: center; 
+  margin-top: -3vh;
 }
 
 .column {
@@ -87,6 +88,7 @@ export default {
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
   margin-left: 10vw;
+  margin-top:-5vw;
 }
 
 .div-8 {

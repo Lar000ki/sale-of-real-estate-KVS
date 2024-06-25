@@ -37,6 +37,7 @@ export default {
   gap: 20px; 
   justify-content: center; 
   align-items: center; 
+  margin-top: -3vh;
 }
 
 .column {
@@ -49,7 +50,8 @@ export default {
 }
 
 .column-2 {
-  width: 50%; 
+  width: 50%;
+   
   display: flex; 
   justify-content: flex-start; 
   align-items: flex-start;
