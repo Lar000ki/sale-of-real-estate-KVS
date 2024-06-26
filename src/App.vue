@@ -1,11 +1,15 @@
 <template>
   <div id="app">
-    <HeaderComponent />
-    <router-view />
+    <HeaderComponent :user="$userState.user" @logout="logout" />
+    <main class="content">
+      <router-view @login="login" />
+    </main>
     <nav class="navigation">
       <button @click="navigateTo('StartMenu')">StartMenu</button>
       <button @click="navigateTo('LoginMenu')">LoginMenu</button>
       <button @click="navigateTo('ObjectsMenu')">ObjectsMenu</button>
+      <button @click="navigateTo('ObjectsEdit')">ObjectsEdit</button>
+      <button @click="navigateTo('ObjectsCreate')">ObjectsCteate</button>
       <button @click="navigateTo('ProfileMenu')">ProfileMenu</button>
       <button @click="navigateTo('RegPass')">RegPass</button>
       <button @click="navigateTo('RegPhone')">RegPhone</button>
@@ -26,13 +30,18 @@ export default {
   methods: {
     navigateTo(page) {
       this.$router.push({ name: page });
+    },
+    login(user) {
+      this.$userState.loginUser(user);
+    },
+    logout() {
+      this.$userState.logoutUser();
     }
   }
 };
 </script>
 
 <style>
-/* Reset margins and paddings for all elements */
 * {
   margin: 0;
   padding: 0;
@@ -42,20 +51,19 @@ export default {
 html, body, #app {
   height: 100%;
 }
-
-/* Additional styling for navigation and header */
+header {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+}
 .navigation {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
 }
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #f8f9fa;
+.content {
+  padding-top: 20px;
 }
 </style>

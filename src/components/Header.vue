@@ -14,26 +14,30 @@
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/21902bbfdae78d9644dc63d5ac3931f815f906dbc5075560a75ddd690a60a017?"
           class="user-icon"
         />
-        <div class="login-text">Войти / Зарегистрироваться</div>
+        <div v-if="!user">
+          <router-link to="/login" class="login-text">Войти / Зарегистрироваться</router-link>
+        </div>
+        <div v-else>
+          {{ user.firstname }} {{ user.lastname }}
+          <button @click="$emit('logout')">Выйти</button>
+        </div>
       </div>
     </header>
-    <main class="content">
-    </main>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HeaderComponent' 
+  name: 'HeaderComponent',
+  props: {
+    user: Object
+  }
 };
 </script>
 
+
 <style scoped>
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 10vh; 
   display: flex;
   justify-content: space-between;
@@ -42,7 +46,6 @@ header {
   box-sizing: border-box;
   background-color: #2c2f34;
   color: white;
-  z-index: 1000;
 }
 
 body {
@@ -90,8 +93,10 @@ body {
 .user-icon {
   margin-right: 1vw;
 }
-
 .login-text {
   margin-left: 1vw;
+  color: white;
+  text-decoration: none;
 }
+
 </style>

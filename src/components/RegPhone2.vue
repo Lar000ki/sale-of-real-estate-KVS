@@ -1,48 +1,52 @@
 <template>
-      <div class="div-6">
-        <div class="column">
-          <img
-            loading="lazy"
-            :src="require('@/assets/hotel1.png')"
-            class="img-3"
-          />
+  <div class="div-6">
+    <div class="column">
+      <img
+        loading="lazy"
+        :src="require('@/assets/hotel1.png')"
+        class="img-3"
+      />
+    </div>
+    <div class="column-2">
+      <div class="div-7">
+        <div class="div-8">Регистрация</div>
+        <div class="div-9">
+          Введите смс-код высланный на Ваш номер телефона
         </div>
-        <div class="column-2">
-          <div class="div-7">
-            <div class="div-8">Регистрация</div>
-            <div class="div-9">
-              Введите смс-код высланный на Ваш номер телефона
-            </div>
-            <div class="div-10">
-              <div class="div-11">СМС-код</div>
-              <input v-model="phone" class="div-12" type="text" placeholder="XXXX">
-            </div>
-            <!-- Кнопка "Получить смс-код" с переходом на страницу RegPass -->
-            <div class="div-13" @click="sendSmsCode">Зарегистрироваться</div>
-            <!-- Кнопка "Войти" -->
-            <div class="div-14">
-              <div class="div-15">Не получили код?</div>
-              <div class="div-16" @click="redirectToLogin">Отправить снова</div>
-            </div>
-          </div>
+        <div class="div-10">
+          <div class="div-11">СМС-код</div>
+          <input v-model="smsCode" class="div-12" type="text" placeholder="XXXX">
+        </div>
+        <div class="div-13" @click="verifySmsCode">Зарегистрироваться</div>
+        <div class="div-14">
+          <div class="div-15">Не получили код?</div>
+          <div class="div-16" @click="resendSmsCode">Отправить снова</div>
         </div>
       </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'RegPhone',
+  name: 'RegPhone2',
+  props: ['phone'],
   data() {
     return {
-      phone: '' // Поле для хранения номера телефона
+      smsCode: ''
     };
   },
   methods: {
-    sendSmsCode() {
-      // Здесь можно добавить логику отправки SMS кода
-      // В данном случае просто переходим на страницу RegPass
-      this.$router.push({ name: 'RegPass' });
+    verifySmsCode() {
+      if (this.smsCode === '0000') {
+        this.$router.push({ name: 'RegPass', params: { phone: this.phone } });
+      } else {
+        alert('Неправильный код');
+      }
     },
+    resendSmsCode() {
+      alert('Код отправлен снова');
+    }
   }
 };
 </script>

@@ -1,5 +1,22 @@
-# kvs
+# для старта:
+## импортировать дамп kvs.sql в mysql
+## в корне:
+```
+npm install
+```
+```
+npm run serve
+```
+## в /server:
+```
+npm install
+```
+```
+node server.js
+```
 
+
+# шаблон readme от vue
 ## Project setup
 ```
 npm install

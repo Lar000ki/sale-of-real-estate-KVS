@@ -14,119 +14,42 @@
         </div>
       </div>
       <div class="table-wrapper">
+        <!-- Отображение таблицы с объектами -->
         <section class="table-column">
           <div class="table-header">ID</div>
-          <div class="table-cell">1</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
-          <div class="table-cell">3</div>
-          <div class="table-cell">2</div>
+          <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
+            {{ object.id }}
+          </div>
         </section>
         <section class="table-column">
           <div class="table-header">Артикул</div>
-          <div class="table-cell">39725412</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
-          <div class="table-cell">39725414</div>
-          <div class="table-cell">39725413</div>
+          <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
+            {{ object.art }}
+          </div>
         </section>
         <section class="table-column">
           <div class="table-header">Тип недвижимости</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
-          <div class="table-cell">Вторичная</div>
-          <div class="table-cell">Новостройка</div>
+          <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
+            {{ object.type }}
+          </div>
         </section>
         <section class="table-column">
           <div class="table-header">Заголовок</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
-          <div class="table-cell">Дом с участком, 108.00м²</div>
-          <div class="table-cell">ЖК «Новое Колпино»</div>
+          <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
+            {{ object.title }}
+          </div>
         </section>
         <section class="table-column">
           <div class="table-header">Категория</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
-          <div class="table-cell">Дом</div>
-          <div class="table-cell">Квартира</div>
+          <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
+            {{ object.category }}
+          </div>
         </section>
         <section class="table-column">
           <div class="table-header">Активность</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
-          <div class="table-cell">Нет</div>
-          <div class="table-cell">Да</div>
+          <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
+            {{ object.active ? 'Да' : 'Нет' }}
+          </div>
         </section>
       </div>
     </section>
@@ -135,8 +58,33 @@
 
 <script>
 export default {
-  name: 'ObjectsMenu'
-}
+  name: 'ObjectsMenu',
+  data() {
+    return {
+      objects: []
+    };
+  },
+  mounted() {
+    this.fetchObjects();
+  },
+  methods: {
+    async fetchObjects() {
+      try {
+        const response = await fetch('http://localhost:3000/objects');
+        if (!response.ok) {
+          throw new Error('Ошибка получения объектов');
+        }
+        const data = await response.json();
+        this.objects = data.objects;
+      } catch (error) {
+        console.error('Ошибка получения объектов:', error);
+      }
+    },
+    editObject(objectId) {
+      this.$router.push(`/objects/edit/${objectId}`);
+    }
+  }
+};
 </script>
 
 <style scoped>

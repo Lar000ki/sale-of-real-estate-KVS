@@ -1,50 +1,68 @@
 <template>
-      <div class="div-6">
-        <div class="column">
-          <img
-            loading="lazy"
-            :src="require('@/assets/hotel1.png')"
-            class="img-3"
+  <div class="div-6">
+    <div class="column">
+      <img
+        loading="lazy"
+        :src="require('@/assets/hotel1.png')"
+        class="img-3"
+      />
+    </div>
+    <div class="column-2">
+      <div class="div-7">
+        <div class="div-8">Вход</div>
+        <div class="div-9">Введите номер телефона и пароль.</div>
+        <div class="div-10">
+          <div class="div-11">Телефон</div>
+          <input v-model="phone" class="div-12" type="text" placeholder="+7" />
+        </div>
+        <div class="div-13">
+          <div class="div-14">Пароль</div>
+          <input
+            v-model="password"
+            class="div-15"
+            type="password"
+            placeholder="******"
           />
         </div>
-        <div class="column-2">
-          <div class="div-7">
-            <div class="div-8">Вход</div>
-            <div class="div-9">Введите номер телефона и пароль.</div>
-            <div class="div-10">
-              <div class="div-11">Телефон</div>
-              <input v-model="phone" class="div-12" type="text" placeholder="+7">
-            </div>
-            <div class="div-13">
-              <div class="div-14">Пароль</div>
-              <input v-model="password" class="div-15" type="password" placeholder="******">
-            </div>
-            <div class="div-16" @click="login">Войти</div>
-            <div class="div-17">
-              <div class="div-18">Нет аккаунта?</div>
-              <router-link to="/regphone" class="div-19">Зарегистрироваться</router-link>
-            </div>
-          </div>
+        <div class="div-16" @click="login">Войти</div>
+        <div class="div-17">
+          <div class="div-18">Нет аккаунта?</div>
+          <router-link to="/regphone" class="div-19"
+            >Зарегистрироваться</router-link
+          >
         </div>
       </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'LoginMenu',
   data() {
     return {
-      phone: '', // Переменная для хранения введенного номера телефона
-      password: '' // Переменная для хранения введенного пароля
+      phone: '',
+      password: ''
     };
   },
   methods: {
-    login() {
-      // Переходим на страницу ObjectsMenu после успешного логина
-      this.$router.push({ name: 'ObjectsMenu' });
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:3000/login', {
+          phone: this.phone,
+          password: this.password
+        });
+        const user = response.data.user;
+        this.$emit('login', user);
+        this.$router.push({ name: 'ObjectsMenu' });
+      } catch (error) {
+        console.error('Ошибка входа: ', error);
+        alert('Ошибка входа, перепроверьте введеные данные');
+      }
     },
     regphone() {
-      // Переходим на страницу регистрации
       this.$router.push({ name: 'RegPhone' });
     }
   }

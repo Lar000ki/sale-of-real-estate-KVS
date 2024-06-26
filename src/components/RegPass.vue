@@ -1,33 +1,36 @@
 <template>
-      <div class="div-6">
-        <div class="column">
-          <img
-            loading="lazy"
-            :src="require('@/assets/hotel1.png')"
-            class="img-3"
-          />
+  <div class="div-6">
+    <div class="column">
+      <img
+        loading="lazy"
+        :src="require('@/assets/hotel1.png')"
+        class="img-3"
+      />
+    </div>
+    <div class="column-2">
+      <div class="div-7">
+        <div class="div-8">Регистрация</div>
+        <div class="div-9">Придумайте пароль</div>
+        <div class="div-10">
+          <div class="div-11">Пароль</div>
+          <input v-model="password" class="div-12" type="password" placeholder="Введите пароль">
         </div>
-        <div class="column-2">
-          <div class="div-7">
-            <div class="div-8">Регистрация</div>
-            <div class="div-9">Придумайте пароль</div>
-            <div class="div-10">
-              <div class="div-11">Пароль</div>
-              <input v-model="password" class="div-12" type="password" placeholder="Введите пароль">
-            </div>
-            <div class="div-13">
-              <div class="div-14">Повторите пароль</div>
-              <input v-model="confirmPassword" class="div-15" type="password" placeholder="Повторите пароль">
-            </div>
-            <div class="div-16" @click="continueRegistration">Продолжить</div>
-          </div>
+        <div class="div-13">
+          <div class="div-14">Повторите пароль</div>
+          <input v-model="confirmPassword" class="div-15" type="password" placeholder="Повторите пароль">
         </div>
+        <div class="div-16" @click="continueRegistration">Продолжить</div>
       </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'RegPass',
+  props: ['phone'],
   data() {
     return {
       password: '',
@@ -35,14 +38,24 @@ export default {
     };
   },
   methods: {
-    continueRegistration() {
-      // Проверка паролей и переход к следующему шагу
+    async continueRegistration() {
       if (this.password !== this.confirmPassword) {
         alert('Пароли не совпадают');
         return;
       }
-      // Здесь может быть логика сохранения пароля и перехода к следующему шагу (например, RegFinal)
-      this.$router.push({ name: 'RegFinal' });
+      try {
+        const response = await axios.post('http://localhost:3000/register', {
+          phone: this.phone,
+          pass: this.password
+        });
+        if (response.status === 201) {
+          alert('User registered successfully');
+          this.$router.push({ name: 'RegFinal' });
+        }
+      } catch (error) {
+        console.error('Error registering user:', error);
+        alert('Error registering user');
+      }
     }
   }
 };
