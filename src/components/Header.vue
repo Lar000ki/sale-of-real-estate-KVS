@@ -1,4 +1,3 @@
-<!-- Header.vue -->
 <template>
   <div class="header-container">
     <header>
@@ -12,6 +11,9 @@
       <div class="left-content">
         <router-link v-if="isLoggedIn" to="/objects" class="nav-item">
           <span class="objects-link">Объекты</span>
+        </router-link>
+        <router-link v-if="isLoggedIn" to="/settings" class="nav-item">
+          <span class="settings-link">Общие настройки</span>
         </router-link>
       </div>
       <div class="right-content">
@@ -35,6 +37,7 @@
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/fe969f6fc205c0ae87e62e47b821da4160fda71457d54ce8502486b26bb5fa10?"
               class="logout-icon"
             />
+            <span class="logout-text">Выйти</span>
           </button>
         </div>
       </div>
@@ -63,14 +66,13 @@ export default {
 
 <style scoped>
 .header-container {
-  width: 100%; /* Занимает всю ширину экрана */
+  width: 100%; 
   display: flex;
   flex-direction: column;
-  box-sizing: border-box; /* Учитываем границы и отступы внутри заданной ширины */
+  box-sizing: border-box; 
 }
 
 header {
-  width: 100%; /* Занимает всю ширину своего родительского контейнера */
   height: 10vh;
   display: flex;
   justify-content: space-between;
@@ -98,6 +100,11 @@ header {
 }
 
 .objects-link {
+  margin-left: 1vw;
+  font-size: 18px; 
+}
+
+.settings-link {
   margin-left: 1vw;
   font-size: 18px; 
 }
@@ -139,10 +146,19 @@ header {
   background: none;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: white;
+  font: 700 16px PT Root UI, sans-serif;
 }
 
 .logout-icon {
   height: 24px; 
+}
+
+.logout-text {
+  margin-left: 0.5vw;
+  font-size: 18px;
 }
 
 .nav-item {

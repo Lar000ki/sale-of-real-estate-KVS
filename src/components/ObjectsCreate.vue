@@ -56,7 +56,7 @@
             <div class="form-row">
               <div class="form-field">
                 <label for="price" class="field-label">Цена</label>
-                <input v-model="object.price" type="number" class="field-value"/>
+                <input v-model="object.price" type="price" class="field-value"/>
               </div>
               <div class="form-field">
                 <label for="client" class="field-label">Клиент</label>
@@ -66,19 +66,25 @@
           </div>
         </div>
       </div>
-      <div class="form-actions">
-        <button @click="saveObject" class="save-button">Сохранить</button>
-        <button @click="cancelEdit" class="cancel-button">Отменить</button>
-      </div>
-      <div class="form-row">
-        <div class="form-field">
-          <input type="file" @change="handleFileUpload" accept="image/*" multiple class="field-value" :disabled="photos.length >= 5"/>
+      <div class="photo-upload-container">
+        <div class="photo-upload">
+          <label for="file-upload" class="photo-upload-label">
+            <img src="@/assets/upload.png" alt="Upload" class="upload-icon"/>
+            <span>Загрузите фото</span>
+          </label>
+         <input id="file-upload" type="file" @change="previewPhoto" accept="image/png, image/jpeg, image/jpg" multiple style="display: none"/>
+        </div>
+        <div class="photos">
+          <div v-for="(photo, index) in photos" :key="index" class="photo">
+            <button @click="deletePhoto(index)" class="delete-button">Удалить</button>
+            <img :src="photo" alt="Photo" class="photo-img"/>
+          </div>
         </div>
       </div>
-      <div class="photos">
-        <div v-for="photo in photos" :key="photo.filename" class="photo">
-          <button @click="deletePhoto(photo.filename)" class="delete-button">Удалить</button>
-          <img :src="`http://localhost:3000/${photo.path}`" alt="Photo" class="photo-img"/>
+      <div class="form-actions-container">
+        <div class="form-actions">
+          <button @click="saveObject" class="save-button">Сохранить</button>
+          <button @click="cancelEdit" class="cancel-button">Отменить</button>
         </div>
       </div>
     </section>
@@ -131,54 +137,23 @@ export default {
     cancelEdit() {
       this.$router.push('/objects');
     },
-    async handleFileUpload(event) {
+    previewPhoto(event) {
       const files = event.target.files;
       if (this.photos.length + files.length > 5) {
         alert('Можно загрузить максимум 5 фотографий');
         return;
       }
 
-      const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
-        formData.append('photos', files[i]);
-      }
-
-      try {
-        const response = await fetch('http://localhost:3000/objects/photos', {
-          method: 'POST',
-          body: formData
-        });
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки фото');
-        }
-        const data = await response.json();
-        this.photos = [...this.photos, ...data.photoPaths.map(path => ({ filename: path.split('/').pop(), path }))];
-        alert('Фото успешно загружено');
-      } catch (error) {
-        console.error('Ошибка загрузки фото:', error);
-        alert('Ошибка загрузки фото');
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.photos.push(e.target.result);
+        };
+        reader.readAsDataURL(files[i]);
       }
     },
-    async deletePhoto(filename) {
-      const objectId = this.$route.params.id;
-
-      try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos/${filename}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ delete: true })
-        });
-        if (!response.ok) {
-          throw new Error('Ошибка удаления фото');
-        }
-        this.photos = this.photos.filter(photo => photo.filename !== filename);
-        alert('Фото удалено');
-      } catch (error) {
-        console.error('Ошибка удаления фото:', error);
-        alert('Ошибка удаления фото');
-      }
+    deletePhoto(index) {
+      this.photos.splice(index, 1);
     }
   }
 };
@@ -196,16 +171,33 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: 10px; /* Отступ сверху для фотографий */
 }
 .photo {
-  width: 250px;
-  height: 250px;
-  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  position: relative;
 }
 .photo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-title {
@@ -256,6 +248,8 @@ export default {
   flex-direction: column;
   flex: 1;
   margin-top: 1.5vw; /* увеличенный отступ сверху */
+  margin-right: 3vw;
+  margin-left: 3vw;
 }
 
 .field-label {
@@ -277,6 +271,7 @@ export default {
   padding: 12px;
   border: none;
   width: 100%;
+  resize: none; /* Убираем возможность изменения размера */
 }
 
 .field-value,
@@ -287,14 +282,21 @@ export default {
 
 .description-value {
   padding: 12px;
+  height: 148px; /* Устанавливаем фиксированную высоту */
+}
+
+.form-actions-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  margin-top: 1.5vw;
+  margin-bottom: 1.5vw;
 }
 
 .form-actions {
-  align-self: start;
   display: flex;
   gap: 20px;
-  justify-content: space-between;
-  margin-top: 24px;
 }
 
 .save-button,
@@ -306,7 +308,6 @@ export default {
   padding: 13px 28px;
   text-align: center;
   cursor: pointer;
-  width: 48%; /* Распределение кнопок по ширине */
 }
 
 .save-button {
@@ -318,6 +319,40 @@ export default {
   background-color: #f4f5f6;
   color: red;
   background: none;
+}
+
+.photo-upload-container {
+  border: 1px solid rgba(220, 223, 225, 1);
+  border-radius: 4px;
+  margin: 20px 3vw 0 3vw;
+  padding: 20px;
+  width: calc(100% - 6vw);
+  height: 40vh; /* Устанавливаем высоту контейнера для фотографий */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Центрируем содержимое по вертикали */
+}
+
+.photo-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  margin-bottom: 20px; /* Отступ снизу для фотографий */
+}
+
+.photo-upload-label {
+  font: 700 18px'PT Root UI', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: 30px;
+  height: 30px;
 }
 
 /* Новые стили для выравнивания всех form-field элементов */

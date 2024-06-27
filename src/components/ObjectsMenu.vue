@@ -11,6 +11,11 @@
               alt=""
               class="add-icon"
             />
+            <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/405f1f63c3c15f53d5481cea07809866d1deaf12459b22774ac48f07547bd551?"
+            class="img"
+          />
             <span class="add-text">Добавить объект</span>
           </router-link>
         </div>
@@ -278,4 +283,15 @@ export default {
     padding: 0 20px;
   }
 }
+.button {
+  background-color: blue; /* изменен цвет фона на синий */
+  color: white; /* цвет текста кнопки */
+  border: none; /* убраны границы */
+  padding: 8px 16px; /* отступы внутри кнопки */
+  border-radius: 4px; /* скругление углов */
+  cursor: pointer; /* указатель при наведении */
+}
+
+
+
 </style>
