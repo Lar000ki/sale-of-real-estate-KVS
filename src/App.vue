@@ -63,7 +63,6 @@ export default {
 
 html, body, #app {
   height: 100%;
-  width: 100vh; /* Занимает всю ширину экрана */
 }
 
 .navigation {
