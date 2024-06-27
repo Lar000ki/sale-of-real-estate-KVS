@@ -141,12 +141,13 @@ export default {
 .div-12 {
   align-items: start;
   border-radius: 4px;
-  background-color: var(--GreyLight_L, #f4f5f6); 
-  margin-top: 1vw; 
-  color: #b0b2b6; 
-  justify-content: center; 
-  padding: 12px; 
-  font: 500 18px PT Root UI, sans-serif; 
+  background-color: var(--GreyLight_L, #f4f5f6);
+  margin-top: 1vw;
+  color: #b0b2b6;
+  justify-content: center;
+  padding: 12px;
+  font: 500 18px PT Root UI, sans-serif;
+  border: none;
 }
 
 .div-13 {
@@ -169,14 +170,15 @@ export default {
 }
 
 .div-15 {
-  align-items: start; 
-  border-radius: 4px; 
-  background-color: var(--GreyLight_L, #f4f5f6); 
-  margin-top: 1vw; 
-  color: #b0b2b6; 
-  justify-content: center; 
-  padding: 12px; 
+  align-items: start;
+  border-radius: 4px;
+  background-color: var(--GreyLight_L, #f4f5f6);
+  margin-top: 1vw;
+  color: #b0b2b6;
+  justify-content: center;
+  padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
+  border: none;
 }
 
 .div-16 {

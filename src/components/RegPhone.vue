@@ -104,6 +104,7 @@ export default {
   width: 470px;
   max-width: 100%;
   flex-direction: column;
+  
 }
 .div-11 {
   color: var(--GreyDarkMain, #292f36);
@@ -111,6 +112,7 @@ export default {
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
+  
 }
 
 .div-12 {
@@ -121,7 +123,7 @@ export default {
   padding: 12px;
   color: #b0b2b6;
   justify-content: center;
-
+  border: none;
   font: 500 18px PT Root UI, sans-serif;
 }
 

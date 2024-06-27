@@ -1,25 +1,41 @@
+<!-- Header.vue -->
 <template>
-  <div>
+  <div class="header-container">
     <header>
-      <div class="left-content">
+      <router-link to="/" class="logo-link">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f00260add49e87f7a22ab03e6c015f9b249e06b89bdf33849f98653660cd777?"
           class="logo"
         />
+      </router-link>
+      <div class="left-content">
+        <router-link v-if="isLoggedIn" to="/objects" class="nav-item">
+          <span class="objects-link">Объекты</span>
+        </router-link>
       </div>
       <div class="right-content">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/21902bbfdae78d9644dc63d5ac3931f815f906dbc5075560a75ddd690a60a017?"
-          class="user-icon"
-        />
-        <div v-if="!user">
+        <div class="profile-info" v-if="isLoggedIn">
+          <router-link to="/profile" class="profile-link">
+            <img
+              loading="lazy"
+              :src="isLoggedIn ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/21902bbfdae78d9644dc63d5ac3931f815f906dbc5075560a75ddd690a60a017?' : ''"
+              class="user-icon"
+            />
+          </router-link>
+          <span class="profile-name">{{ user.firstname }} {{ user.lastname }}</span>
+        </div>
+        <div v-else class="not-logged-in">
           <router-link to="/login" class="login-text">Войти / Зарегистрироваться</router-link>
         </div>
-        <div v-else>
-          {{ user.firstname }} {{ user.lastname }}
-          <button @click="$emit('logout')">Выйти</button>
+        <div v-if="isLoggedIn" class="logged-in">
+          <button @click="logout" class="logout-button">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/fe969f6fc205c0ae87e62e47b821da4160fda71457d54ce8502486b26bb5fa10?"
+              class="logout-icon"
+            />
+          </button>
         </div>
       </div>
     </header>
@@ -31,58 +47,59 @@ export default {
   name: 'HeaderComponent',
   props: {
     user: Object
+  },
+  computed: {
+    isLoggedIn() {
+      return !!this.user; // Проверяем, залогинен ли пользователь
+    }
+  },
+  methods: {
+    logout() {
+      this.$emit('logout'); // Вызываем событие выхода
+    }
   }
 };
 </script>
 
-
 <style scoped>
+.header-container {
+  width: 100%; /* Занимает всю ширину экрана */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* Учитываем границы и отступы внутри заданной ширины */
+}
+
 header {
-  height: 10vh; 
+  width: 100%; /* Занимает всю ширину своего родительского контейнера */
+  height: 10vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1vh 1vw; 
+  padding: 1vh 1vw;
   box-sizing: border-box;
   background-color: #2c2f34;
   color: white;
 }
 
-body {
-  margin: 0;
+.logo-link {
+  text-decoration: none; 
 }
 
-.content {
-  padding-top: 13vh; 
-}
-
-.logo img {
+.logo {
   height: 8vh;
-}
-
-.nav-icons {
-  display: flex;
-  align-items: center;
-}
-
-.user-icon, .logout-icon {
-  margin-right: 1vw;
-}
-
-.logout-button {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
+  margin-left: 1vw; 
 }
 
 .left-content {
   display: flex;
   align-items: center;
+  flex: 1; 
+  font: 700 16px PT Root UI, sans-serif;
 }
 
-.logo {
-  margin-right: 2vw;
+.objects-link {
+  margin-left: 1vw;
+  font-size: 18px; 
 }
 
 .right-content {
@@ -90,13 +107,55 @@ body {
   align-items: center;
 }
 
-.user-icon {
-  margin-right: 1vw;
-}
-.login-text {
-  margin-left: 1vw;
-  color: white;
-  text-decoration: none;
+.profile-info {
+  display: flex;
+  align-items: center;
 }
 
+.user-icon {
+  margin-right: 1vw;
+  max-width: 24px; 
+}
+
+.profile-name {
+  margin-left: 1vw;
+  margin-right: 1vw;  
+  font-size: 18px; 
+  color: white;
+  font: 700 16px PT Root UI, sans-serif;
+}
+
+.not-logged-in {
+  display: flex;
+  align-items: center;
+}
+
+.logged-in {
+  display: flex;
+  align-items: center;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-icon {
+  height: 24px; 
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login-text {
+  color: white;
+  text-decoration: none;
+  font: 700 16px PT Root UI, sans-serif;
+}
 </style>

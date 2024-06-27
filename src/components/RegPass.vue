@@ -131,6 +131,7 @@ export default {
   justify-content: center;
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
+  border: none;
 }
 
 .div-13 {
@@ -158,6 +159,7 @@ export default {
   justify-content: center;
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
+  border: none;
 }
 
 .div-16 {

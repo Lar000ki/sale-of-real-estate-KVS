@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="column-2">
+        <div class="column">
           <div class="div-26">
             <div class="div-27">
               <div class="div-28">Старый пароль</div>
@@ -62,7 +62,6 @@ export default {
     loadProfile() {
       const user = this.$userState.user;
       if (user) {
-        //console.log(user);
         this.profile.id = user.id;
         this.profile.firstname = user.firstname;
         this.profile.lastname = user.lastname;
@@ -78,7 +77,7 @@ export default {
         oldPassword: this.oldPassword,
         newPassword: this.newPassword
       };
-    //console.log(this.$userState.user);
+
       try {
         const response = await fetch('http://localhost:3000/profile', {
           method: 'PUT',
@@ -94,7 +93,7 @@ export default {
         }
 
         const updatedUser = await response.json();
-        this.$userState.loginUser(updatedUser); // обновление данных в реактивном состоянии
+        this.$userState.loginUser(updatedUser);
         alert('Профиль успешно обновлен');
       } catch (error) {
         console.error('Error updating profile:', error);
@@ -142,9 +141,10 @@ export default {
 }
 
 .div-16, .div-20, .div-23 {
+  font: 700 16px PT Root UI, sans-serif;
+  letter-spacing: 0.32px;
   display: flex;
   flex-direction: column;
-  margin-top: 1vw;
 }
 
 .div-17, .div-27, .div-30 {
@@ -153,10 +153,19 @@ export default {
   flex-direction: column;
 }
 
-.div-18, .div-21, .div-24, .div-28, .div-31 {
+.div-18, .div-21, .div-24, .div-28 {
+  font: 700 16px PT Root UI, sans-serif;
+  letter-spacing: 0.32px;
+  display: flex;
+  text-align: left;
+  margin-top: 1vw;
+}
+
+.div-31 {
   font: 700 16px PT Root UI, sans-serif;
   letter-spacing: 0.32px;
   text-align: left;
+  margin-top: 2vw;
 }
 
 .input-field {
@@ -165,19 +174,20 @@ export default {
   margin-top: 1vw;
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
+  border: none;
 }
 
-.column-2 {
+.column {
   display: flex;
   flex-direction: column;
   width: 50%;
-  margin-left: 20px;
+  margin-top: 1vw;
 }
 
 .div-33 {
   display: flex;
   gap: 20px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   padding-top: 40px;
 }
@@ -187,14 +197,21 @@ export default {
   font-family: PT Root UI, sans-serif;
   padding: 13px 28px;
   border-radius: 4px;
+  border: none;
 }
 
 .div-34 {
   background-color: var(--Accent, #008ad7);
   color: #fff;
+  font: 700 18px PT Root UI, sans-serif;
 }
 
 .div-35 {
+  background: none;
   color: var(--Red, #a41010);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: 700 18px PT Root UI, sans-serif;
 }
 </style>

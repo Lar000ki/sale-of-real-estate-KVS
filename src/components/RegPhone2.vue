@@ -128,6 +128,7 @@ export default {
   margin-top: 1vw;
   color: #b0b2b6;
   justify-content: center;
+  border: none;
   padding: 12px;
   font: 500 18px PT Root UI, sans-serif;
 }

@@ -1,15 +1,19 @@
+<!-- App.vue -->
 <template>
   <div id="app">
-    <HeaderComponent :user="$userState.user" @logout="logout" />
+    <!-- Используем динамический компонент -->
+    <component :is="headerComponent" :user="$userState.user" @logout="logout" />
     <main class="content">
+      <!-- Роутерный вывод основного контента -->
       <router-view @login="login" />
     </main>
     <nav class="navigation">
+      <!-- Кнопки навигации для различных страниц -->
       <button @click="navigateTo('StartMenu')">StartMenu</button>
       <button @click="navigateTo('LoginMenu')">LoginMenu</button>
       <button @click="navigateTo('ObjectsMenu')">ObjectsMenu</button>
-      <button @click="navigateTo('ObjectsEdit')">ObjectsEdit</button>
-      <button @click="navigateTo('ObjectsCreate')">ObjectsCteate</button>
+      <button @click="navigateTo('ObjectsEdit', { id: 'exampleId' })">ObjectsEdit</button>
+      <button @click="navigateTo('ObjectsCreate')">ObjectsCreate</button>
       <button @click="navigateTo('ProfileMenu')">ProfileMenu</button>
       <button @click="navigateTo('RegPass')">RegPass</button>
       <button @click="navigateTo('RegPhone')">RegPhone</button>
@@ -20,21 +24,30 @@
 </template>
 
 <script>
-import HeaderComponent from './components/Header.vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   name: 'App',
   components: {
-    HeaderComponent
+    HeaderComponent: defineAsyncComponent(() => import('./components/Header.vue')),
+  },
+  computed: {
+    headerComponent() {
+      // Всегда возвращаем компонент 'HeaderComponent'
+      return 'HeaderComponent';
+    }
   },
   methods: {
-    navigateTo(page) {
-      this.$router.push({ name: page });
+    navigateTo(page, params) {
+      // Метод для навигации по страницам
+      this.$router.push({ name: page, params });
     },
     login(user) {
+      // Метод для входа пользователя
       this.$userState.loginUser(user);
     },
     logout() {
+      // Метод для выхода пользователя
       this.$userState.logoutUser();
     }
   }
@@ -50,19 +63,16 @@ export default {
 
 html, body, #app {
   height: 100%;
+  width: 100vh; /* Занимает всю ширину экрана */
 }
-header {
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #f8f9fa;
-}
+
 .navigation {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
 }
+
 .content {
   padding-top: 20px;
 }

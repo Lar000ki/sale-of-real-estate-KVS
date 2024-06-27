@@ -78,7 +78,7 @@
       </div>
       <div class="photos">
         <div v-for="photo in photos" :key="photo.filename" class="photo">
-            <button @click="deletePhoto(photo.filename)">Удалить</button>
+          <button @click="deletePhoto(photo.filename)">Удалить</button>
           <img :src="`http://localhost:3000/${photo.path}`" alt="Photo" class="photo-img"/>
         </div>
       </div>
@@ -118,12 +118,12 @@ export default {
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}`);
         if (!response.ok) {
-          throw new Error('Ошибка загрузки фото');
+          throw new Error('Ошибка загрузки объекта');
         }
         const data = await response.json();
         this.object = data;
       } catch (error) {
-        console.error('Ошибка загрузки фото:', error);
+        console.error('Ошибка загрузки объекта:', error);
       }
     },
     async loadPhotos() {
@@ -131,12 +131,12 @@ export default {
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`);
         if (!response.ok) {
-          throw new Error('Ошибка загрузки фото');
+          throw new Error('Ошибка загрузки фотографий');
         }
         const data = await response.json();
         this.photos = data.photos;
       } catch (error) {
-        console.error('Ошибка загрузки фото:', error);
+        console.error('Ошибка загрузки фотографий:', error);
       }
     },
     async saveObject() {
@@ -160,7 +160,7 @@ export default {
       }
     },
     cancelEdit() {
-      this.$router.push('/objects'); // Redirect to objects list
+      this.$router.push('/objects');
     },
     async handleFileUpload(event) {
       const files = event.target.files;
@@ -181,37 +181,32 @@ export default {
           body: formData
         });
         if (!response.ok) {
-          throw new Error('Ошибка загрузки фото');
+          throw new Error('Ошибка загрузки фотографий');
         }
         const data = await response.json();
         this.photos = [...this.photos, ...data.photoPaths.map(path => ({ filename: path.split('/').pop(), path }))];
-        alert('Фото загружено');
+        alert('Фотографии загружены');
       } catch (error) {
-        console.error('Ошибка загрузки фото:', error);
-        alert('Ошибка загрузки фото');
+        console.error('Ошибка загрузки фотографий:', error);
+        alert('Ошибка загрузки фотографий');
       }
     },
     async deletePhoto(filename) {
-  const objectId = this.$route.params.id;
-
-  try {
-    const response = await fetch(`http://localhost:3000/objectsdel/${objectId}/photos/${filename}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ delete: true })
-    });
-    if (!response.ok) {
-      throw new Error('Ошибка удаления фото');
+      const objectId = this.$route.params.id;
+      try {
+        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos/${filename}`, {
+          method: 'DELETE'
+        });
+        if (!response.ok) {
+          throw new Error('Ошибка удаления фотографии');
+        }
+        this.photos = this.photos.filter(photo => photo.filename !== filename);
+        alert('Фотография удалена');
+      } catch (error) {
+        console.error('Ошибка удаления фотографии:', error);
+        alert('Ошибка удаления фотографии');
+      }
     }
-    this.photos = this.photos.filter(photo => photo.filename !== filename); // Удаление фотографии из списка
-    alert('Фото удалено');
-  } catch (error) {
-    console.error('Ошибка удаления фото:', error);
-    alert('Ошибка удаления фото');
-  }
-}
   }
 };
 </script>
@@ -244,6 +239,7 @@ export default {
   color: var(--GreyDarkMain, #292f36);
   font: 700 42px PT Root UI, sans-serif;
   width: 100%;
+  margin-left: 3vw; /* увеличенный отступ слева */
 }
 
 .edit-form {
@@ -251,9 +247,10 @@ export default {
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
-  padding: 20px;
-  width: 100%;
+  margin-top: 2vw;
+  margin-left: 3vw; /* увеличенный отступ слева */
+  margin-right: 3vw; /* увеличенный отступ справа */
+  width: calc(100% - 6vw); /* уменьшаем ширину на обе стороны на 1.5vw */
 }
 
 .form-layout {
@@ -277,7 +274,7 @@ export default {
 .form-row {
   display: flex;
   gap: 20px;
-  margin-top: 24px;
+  border-bottom: none; 
 }
 
 .form-field {
@@ -285,87 +282,38 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin-top: 1.5vw; 
 }
 
 .field-label {
-  text-align: center;
+  text-align: left;
   font: 700 16px PT Root UI, sans-serif;
   letter-spacing: 0.32px;
 }
 
-.field-value {
+.field-value,
+.field-value-with-icon,
+.description-value,
+.field-value input,
+.field-value-with-icon input,
+.field-value textarea {
   align-items: start;
   background-color: var(--GreyLight_L, #f4f5f6);
   border-radius: 4px;
   font: 500 18px PT Root UI, sans-serif;
+  padding: 12px;
+  border: none;
+  width: 100%;
+}
+
+.field-value,
+.field-value-with-icon {
   justify-content: center;
   margin-top: 8px;
-  padding: 12px;
-}
-
-.field-value-with-icon {
-  background-color: var(--GreyLight_L, #f4f5f6);
-  border-radius: 4px;
-  display: flex;
-  font-size: 18px;
-  font-weight: 500;
-  justify-content: space-between;
-  margin-top: 8px;
-  padding: 12px;
-}
-
-.icon {
-  aspect-ratio: 1;
-  object-fit: auto;
-  object-position: center;
-  width: 24px;
 }
 
 .description-value {
-  padding: 12px 12px 66px;
-}
-
-.image-upload-section {
-  border: 1px dashed rgba(104, 113, 123, 1);
-  border-radius: 4px;
-  margin-top: 24px;
-  padding: 20px;
-}
-
-.image-gallery {
-  display: flex;
-  gap: 20px;
-}
-
-.gallery-image {
-  aspect-ratio: 1;
-  object-fit: auto;
-  object-position: center;
-  width: 150px;
-}
-
-.upload-button {
-  align-items: center;
-  color: #b0b2b6;
-  display: flex;
-  flex-direction: column;
-  font-size: 18px;
-  font-weight: 700;
-  justify-content: center;
-  margin: auto 0;
-  text-transform: uppercase;
-}
-
-.upload-icon {
-  aspect-ratio: 1;
-  object-fit: auto;
-  object-position: center;
-  width: 48px;
-}
-
-.upload-text {
-  font-family: PT Root UI, sans-serif;
-  margin-top: 10px;
+  padding: 12px;
 }
 
 .form-actions {
@@ -376,23 +324,45 @@ export default {
   margin-top: 24px;
 }
 
-.save-button {
-  background-color: var(--Accent, #008ad7);
+.save-button,
+.cancel-button {
+  border: none;
   border-radius: 4px;
-  color: #fff;
   font: 700 18px PT Root UI, sans-serif;
   letter-spacing: 0.36px;
   padding: 13px 28px;
   text-align: center;
+  cursor: pointer;
+  width: 48%; 
+}
+
+.save-button {
+  background-color: var(--Accent, #008ad7);
+  color: #fff;
 }
 
 .cancel-button {
   background-color: #f4f5f6;
+  color: red;
+  background: none;
+}
+
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; 
+}
+
+.field-label {
+  font-weight: 700;
+}
+
+.field-value {
+  padding: 8px;
+  background-color: #f4f5f6;
   border-radius: 4px;
-  color: var(--GreyDarkMain, #292f36);
-  font: 700 18px PT Root UI, sans-serif;
-  letter-spacing: 0.36px;
-  padding: 13px 28px;
-  text-align: center;
+  font-weight: 500;
+  flex: 1; 
 }
 </style>

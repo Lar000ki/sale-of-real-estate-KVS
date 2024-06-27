@@ -4,17 +4,18 @@
       <div class="content-header">
         <h3 class="content-title">Объекты</h3>
         <div class="content-add">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/90b9f78737b8e3e19d1c02da23ea9c81258b062234303b5b068b97984dbf2abe?"
-            alt=""
-            class="add-icon"
-          />
-          <span class="add-text">Добавить объект</span>
+          <router-link to="/objects/create" class="add-link">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/90b9f78737b8e3e19d1c02da23ea9c81258b062234303b5b068b97984dbf2abe?"
+              alt=""
+              class="add-icon"
+            />
+            <span class="add-text">Добавить объект</span>
+          </router-link>
         </div>
       </div>
       <div class="table-wrapper">
-        <!-- Отображение таблицы с объектами -->
         <section class="table-column">
           <div class="table-header">ID</div>
           <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
@@ -190,9 +191,21 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #008ad7;
+  color: #008ad7; /* Цвет текста для активной ссылки */
   font-family: "PT Root UI", sans-serif;
   font-size: 18px;
+}
+
+.content-add .add-link {
+  color: #008ad7; /* Цвет текста для активной ссылки */
+  text-decoration: none; /* Убираем подчеркивание для ссылки */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content-add .add-link:hover {
+  text-decoration: underline; /* Подчеркиваем ссылку при наведении */
 }
 
 .add-icon {
