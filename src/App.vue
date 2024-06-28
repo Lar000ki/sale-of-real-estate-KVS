@@ -7,8 +7,7 @@
       <!-- Роутерный вывод основного контента -->
       <router-view @login="login" />
     </main>
-    <nav class="navigation">
-      <!-- Кнопки навигации для различных страниц -->
+    <!-- <nav class="navigation">
       <button @click="navigateTo('StartMenu')">StartMenu</button>
       <button @click="navigateTo('LoginMenu')">LoginMenu</button>
       <button @click="navigateTo('ObjectsMenu')">ObjectsMenu</button>
@@ -19,7 +18,7 @@
       <button @click="navigateTo('RegPhone')">RegPhone</button>
       <button @click="navigateTo('RegPhone2')">RegPhone2</button>
       <button @click="navigateTo('RegFinal')">RegFinal</button>
-    </nav>
+    </nav> -->
   </div>
 </template>
 
