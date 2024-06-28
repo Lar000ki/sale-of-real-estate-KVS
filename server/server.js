@@ -1,23 +1,46 @@
 const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
-const app = express();
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2/promise');
+const multer = require('multer');
+const path = require('path');
+
+const app = express();
+const port = 3000;
+
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: '20Lw0aTiIYLvyZZ',
+  password: 'qwerty050',
   database: 'kvs'
 });
 
 const corsOptions = {
-  origin: 'http://localhost:8080',  // тут домен фронта
+  origin: 'http://localhost:8080',
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Настройка хранилища multer для загрузки фотографий
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const objectId = req.params.id;
+    const uploadDir = path.join(__dirname, 'uploads', objectId.toString());
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}${ext}`);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 app.post('/register', async (req, res) => {
   const { phone, pass } = req.body;
@@ -40,7 +63,7 @@ app.post('/register', async (req, res) => {
       res.status(500).json({ error: 'Ошибка регистрации' });
     }
   } catch (error) {
-    //console.error(error);
+    console.error(error);
     res.status(500).json({ error: 'Ошибка регистрации' });
   }
 });
@@ -60,12 +83,12 @@ app.post('/login', async (req, res) => {
     }
 
     const user = rows[0];
-
     const match = await bcrypt.compare(password, user.pass);
 
     if (!match) {
       return res.status(400).json({ error: 'Неверный пароль' });
     }
+
     res.status(200).json({
       user: {
         id: user.id,
@@ -84,44 +107,10 @@ app.post('/login', async (req, res) => {
 app.get('/objects', async (req, res) => {
   try {
     const [rows] = await pool.execute('SELECT * FROM objects');
-
     res.json({ objects: rows });
   } catch (error) {
     console.error('Ошибка получения объектов:', error);
     res.status(500).json({ error: 'Ошибка получения объектов' });
-  }
-});
-
-app.put('/profile', async (req, res) => {
-  const { id, firstname, lastname, phone, oldPassword, newPassword } = req.body;
-  //console.log(req.body);
-  if (!id || !firstname || !lastname || !phone) {
-    return res.status(400).json({ error: 'Не хватает данных (попробуй перезайти в аккаунт)' });
-  }
-  try {
-    if (oldPassword && newPassword) {
-      const [rows] = await pool.execute('SELECT pass FROM users WHERE id = ?', [id]);
-      if (rows.length === 0) {
-        return res.status(404).json({ error: 'Пользователь не найден' });
-      }
-      const user = rows[0];
-      const match = await bcrypt.compare(oldPassword, user.pass);
-      if (!match) {
-        return res.status(400).json({ error: 'Неверный старый пароль' });
-      }
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-      await pool.execute('UPDATE users SET pass = ? WHERE id = ?', [hashedNewPassword, id]);
-    }
-    await pool.execute('UPDATE users SET firstname = ?, lastname = ?, phone = ? WHERE id = ?', [firstname, lastname, phone, id]);
-    const [updatedUserRows] = await pool.execute('SELECT firstname, lastname, phone, id FROM users WHERE id = ?', [id]);
-    if (updatedUserRows.length === 0) {
-      return res.status(404).json({ error: 'Пользователь не найден после обновления' });
-    }
-    const updatedUser = updatedUserRows[0];
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error('Ошибка обновления профиля:', error);
-    res.status(500).json({ error: 'Ошибка обновления профиля' });
   }
 });
 
@@ -136,6 +125,31 @@ app.get('/objects/:id', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Ошибка получения объекта' });
+  }
+});
+
+app.post('/objectsadd', async (req, res) => {
+  const { art, type, title, category, year, floors, floor, rooms, price, clientid, description } = req.body;
+
+  if (!art || !type || !title || !category || !year || !floors || !floor || !rooms || !price || !clientid || !description) {
+    return res.status(400).json({ error: 'Не все поля заполнены' });
+  }
+
+  try {
+    const [result] = await pool.execute(
+      'INSERT INTO objects (art, type, title, category, year, floors, floor, rooms, price, clientid, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [art, type, title, category, year, floors, floor, rooms, price, clientid, description]
+    );
+
+    if (result.affectedRows === 1) {
+      const objectId = result.insertId; // Получаем ID нового объекта
+      res.status(201).json({ message: 'Объект успешно добавлен', objectId });
+    } else {
+      res.status(500).json({ error: 'Ошибка добавления объекта' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Ошибка добавления объекта' });
   }
 });
 
@@ -155,7 +169,7 @@ app.put('/objects/:id', async (req, res) => {
     clientid,
     description
   } = req.body;
-  //console.log(req.body);
+
   try {
     const [result] = await pool.execute(
       'UPDATE objects SET art = ?, type = ?, title = ?, category = ?, active = ?, year = ?, floors = ?, floor = ?, rooms = ?, price = ?, clientid = ?, description = ? WHERE id = ?',
@@ -175,6 +189,7 @@ app.put('/objects/:id', async (req, res) => {
         objectId
       ]
     );
+
     res.send({ success: true, result });
   } catch (error) {
     console.error(error);
@@ -182,25 +197,47 @@ app.put('/objects/:id', async (req, res) => {
   }
 });
 
-const multer = require('multer');
-const path = require('path');
+app.put('/profile', async (req, res) => {
+  const { id, firstname, lastname, phone, oldPassword, newPassword } = req.body;
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const objectId = req.params.id;
-    const uploadDir = path.join(__dirname, 'uploads', objectId.toString());
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+  if (!id || !firstname || !lastname || !phone) {
+    return res.status(400).json({ error: 'Не хватает данных (попробуй перезайти в аккаунт)' });
+  }
+
+  try {
+    if (oldPassword && newPassword) {
+      const [rows] = await pool.execute('SELECT pass FROM users WHERE id = ?', [id]);
+
+      if (rows.length === 0) {
+        return res.status(404).json({ error: 'Пользователь не найден' });
+      }
+
+      const user = rows[0];
+      const match = await bcrypt.compare(oldPassword, user.pass);
+
+      if (!match) {
+        return res.status(400).json({ error: 'Неверный старый пароль' });
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      await pool.execute('UPDATE users SET pass = ? WHERE id = ?', [hashedNewPassword, id]);
     }
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}${ext}`);
+
+    await pool.execute('UPDATE users SET firstname = ?, lastname = ?, phone = ? WHERE id = ?', [firstname, lastname, phone, id]);
+
+    const [updatedUserRows] = await pool.execute('SELECT firstname, lastname, phone, id FROM users WHERE id = ?', [id]);
+
+    if (updatedUserRows.length === 0) {
+      return res.status(404).json({ error: 'Пользователь не найден после обновления' });
+    }
+
+    const updatedUser = updatedUserRows[0];
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Ошибка обновления профиля:', error);
+    res.status(500).json({ error: 'Ошибка обновления профиля' });
   }
 });
-
-const upload = multer({ storage: storage });
 
 app.post('/objects/:id/photos', upload.array('photos', 5), async (req, res) => {
   const objectId = req.params.id;
@@ -214,36 +251,12 @@ app.post('/objects/:id/photos', upload.array('photos', 5), async (req, res) => {
       req.files.forEach(file => fs.unlinkSync(file.path));
       return res.status(400).json({ error: 'Объект не может иметь более 5 фотографий' });
     }
-    const photoPaths = req.files.map(file => file.path);
 
+    const photoPaths = req.files.map(file => file.path);
     res.json({ success: true, photoPaths });
   } catch (error) {
     console.error('Error uploading photos:', error);
     res.status(500).json({ error: 'Error uploading photos' });
-  }
-});
-
-app.post('/objectsadd', async (req, res) => {
-  const { art, type, title, category, year, floors, floor, rooms, price, clientid, description } = req.body;
-
-  if (!art || !type || !title || !category || !year || !floors || !floor || !rooms || !price || !clientid || !description) {
-    return res.status(400).json({ error: 'Не все поля заполнены' });
-  }
-
-  try {
-    const [result] = await pool.execute(
-      'INSERT INTO objects (art, type, title, category, year, floors, floor, rooms, price, clientid, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [art, type, title, category, year, floors, floor, rooms, price, clientid, description]
-    );
-
-    if (result.affectedRows === 1) {
-      res.status(201).json({ message: 'Объект успешно добавлен' });
-    } else {
-      res.status(500).json({ error: 'Ошибка добавления объекта' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Ошибка добавления объекта' });
   }
 });
 
@@ -277,21 +290,18 @@ app.get('/objects/:id/photos', (req, res) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to load photos' });
     }
+
     const photos = files.map(file => ({
       filename: file,
       path: `uploads/${objectId}/${file}`
     }));
+
     res.json({ photos });
   });
 });
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-
-const port = 3000;
 app.listen(port, () => {
-  console.log(`сервер запущен на порте ${port}`);
+  console.log(`Сервер запущен на порте ${port}`);
 });
-
-

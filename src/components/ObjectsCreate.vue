@@ -56,7 +56,7 @@
             <div class="form-row">
               <div class="form-field">
                 <label for="price" class="field-label">Цена</label>
-                <input v-model="object.price" type="price" class="field-value"/>
+                <input v-model="object.price" type="number" class="field-value"/>
               </div>
               <div class="form-field">
                 <label for="client" class="field-label">Клиент</label>
@@ -72,15 +72,16 @@
             <img src="@/assets/upload.png" alt="Upload" class="upload-icon"/>
             <span>Загрузите фото</span>
           </label>
-         <input id="file-upload" type="file" @change="previewPhoto" accept="image/png, image/jpeg, image/jpg" multiple style="display: none"/>
+          <input id="file-upload" type="file" @change="handleFileUpload" accept="image/png, image/jpeg, image/jpg" multiple style="display: none"/>
         </div>
         <div class="photos">
           <div v-for="(photo, index) in photos" :key="index" class="photo">
-            <button @click="deletePhoto(index)" class="delete-button">Удалить</button>
-            <img :src="photo" alt="Photo" class="photo-img"/>
+            <button @click="deletePhoto(index)" class="delete-button">×</button>
+            <img :src="photo.preview" :alt="photo.name" class="photo-img"/>
           </div>
         </div>
       </div>
+
       <div class="form-actions-container">
         <div class="form-actions">
           <button @click="saveObject" class="save-button">Сохранить</button>
@@ -93,7 +94,7 @@
 
 <script>
 export default {
-  name: 'ObjectsEdit',
+  name: 'ObjectsAdd',
   data() {
     return {
       object: {
@@ -110,13 +111,15 @@ export default {
         clientid: '',
         description: ''
       },
-      photos: []
+      photos: [] // Для хранения загруженных фотографий
     };
   },
   methods: {
+    // Метод для сохранения объекта и фотографий на сервере
     async saveObject() {
       try {
-        const response = await fetch('http://localhost:3000/objectsadd', {
+        // Сохранение объекта
+        const response = await fetch('http://localhost:3000/objects', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -124,34 +127,61 @@ export default {
           body: JSON.stringify(this.object)
         });
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Ошибка ответа сервера:', errorText);
           throw new Error('Ошибка сохранения объекта');
         }
         const data = await response.json();
-        alert(data.message);
+        const objectId = data.id;
+
+        // Сохранение фотографий после сохранения объекта
+        await this.savePhotos(objectId);
+
+        alert('Объект сохранен');
         this.$router.push('/objects');
       } catch (error) {
         console.error('Ошибка сохранения объекта:', error);
         alert('Ошибка сохранения объекта');
       }
     },
-    cancelEdit() {
-      this.$router.push('/objects');
-    },
-    previewPhoto(event) {
+    // Метод для обработки загрузки фотографий
+    handleFileUpload(event) {
       const files = event.target.files;
-      if (this.photos.length + files.length > 5) {
-        alert('Можно загрузить максимум 5 фотографий');
-        return;
-      }
-
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.photos.push(e.target.result);
+          this.photos.push({ preview: e.target.result, file: files[i], name: files[i].name });
         };
         reader.readAsDataURL(files[i]);
       }
     },
+    // Метод для сохранения фотографий на сервере
+    async savePhotos(objectId) {
+      const formData = new FormData();
+      for (let i = 0; i < this.photos.length; i++) {
+        formData.append('photos', this.photos[i].file);
+      }
+
+      try {
+        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
+          method: 'POST',
+          body: formData
+        });
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Ошибка ответа сервера при сохранении фотографий:', errorText);
+          throw new Error('Ошибка загрузки фотографий');
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки фотографий:', error);
+        alert('Ошибка загрузки фотографий');
+      }
+    },
+    // Метод для отмены редактирования объекта и возврата на предыдущую страницу
+    cancelEdit() {
+      this.$router.push('/objects');
+    },
+    // Метод для удаления фотографии из предварительного просмотра
     deletePhoto(index) {
       this.photos.splice(index, 1);
     }

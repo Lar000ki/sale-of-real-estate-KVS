@@ -76,12 +76,12 @@
             <img src="@/assets/upload.png" alt="Upload" class="upload-icon"/>
             <span>Загрузите фото</span>
           </label>
-         <input id="file-upload" type="file" @change="previewPhoto" accept="image/png, image/jpeg, image/jpg" multiple style="display: none"/>
+          <input id="file-upload" type="file" @change="handleFileUpload" accept="image/png, image/jpeg, image/jpg" multiple style="display: none"/>
         </div>
         <div class="photos">
           <div v-for="(photo, index) in photos" :key="index" class="photo">
-            <button @click="deletePhoto(index)" class="delete-button">Удалить</button>
-            <img :src="photo" alt="Photo" class="photo-img"/>
+            <button @click="deletePhoto(index)" class="delete-button">×</button>
+            <img :src="photo.path" :alt="photo.filename" class="photo-img"/>
           </div>
         </div>
       </div>
@@ -114,15 +114,17 @@ export default {
         clientid: '',
         description: ''
       },
-      photos: []
+      photos: [] // Для хранения загруженных фотографий
     };
   },
   created() {
+    // Загрузка объекта и фотографий при создании компонента
     this.loadObject();
     this.loadPhotos();
   },
   methods: {
     async loadObject() {
+      // Метод для загрузки данных объекта с сервера
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}`);
@@ -136,6 +138,7 @@ export default {
       }
     },
     async loadPhotos() {
+      // Метод для загрузки фотографий объекта с сервера
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`);
@@ -143,12 +146,16 @@ export default {
           throw new Error('Ошибка загрузки фотографий');
         }
         const data = await response.json();
-        this.photos = data.photos;
+        this.photos = data.photos.map(photo => ({
+          ...photo,
+          path: `http://localhost:3000/${photo.path}`
+        }));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
       }
     },
     async saveObject() {
+      // Метод для сохранения изменений объекта на сервере
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
@@ -169,29 +176,62 @@ export default {
       }
     },
     cancelEdit() {
+      // Метод для отмены редактирования объекта и возврата на предыдущую страницу
       this.$router.push('/objects');
     },
-    handleFileUpload(event) {
+    async handleFileUpload(event) {
+      // Метод для обработки загрузки фотографий на сервер
+      const formData = new FormData();
       const files = event.target.files;
-      if (this.photos.length + files.length > 5) {
-        alert('Можно загрузить максимум 5 фотографий');
-        return;
+      for (let i = 0; i < files.length; i++) {
+        formData.append('photos', files[i]);
       }
 
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.photos.push(e.target.result);
-        };
-        reader.readAsDataURL(files[i]);
+      const objectId = this.$route.params.id;
+      try {
+        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
+          method: 'POST',
+          body: formData
+        });
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки фотографий');
+        }
+        const data = await response.json();
+        // Обновляем список фотографий после загрузки
+        this.photos = this.photos.concat(data.photoPaths.map(path => ({ path })));
+      } catch (error) {
+        console.error('Ошибка загрузки фотографий:', error);
+        alert('Ошибка загрузки фотографий');
       }
     },
-    deletePhoto(index) {
-      this.photos.splice(index, 1);
+    async deletePhoto(index) {
+      // Метод для удаления фотографии с сервера
+      const objectId = this.$route.params.id;
+      const photoToDelete = this.photos[index];
+
+      try {
+        const response = await fetch(`http://localhost:3000/objectsdel/${objectId}/photos/${photoToDelete.filename}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ delete: true })
+        });
+        if (!response.ok) {
+          throw new Error('Ошибка удаления фотографии');
+        }
+        alert('Фотография удалена');
+        this.photos.splice(index, 1);
+      } catch (error) {
+        console.error('Ошибка удаления фотографии:', error);
+        alert('Ошибка удаления фотографии');
+      }
     }
   }
 };
 </script>
+
+
 
 <style scoped>
 .object-edit-container {
@@ -207,11 +247,13 @@ export default {
   gap: 10px;
   margin-top: 10px; /* Отступ сверху для фотографий */
 }
+
 .photo {
   width: 150px;
   height: 150px;
   position: relative;
 }
+
 .photo-img {
   width: 100%;
   height: 100%;
@@ -232,6 +274,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0;
 }
 
 .page-title {
@@ -273,7 +318,7 @@ export default {
 .form-row {
   display: flex;
   gap: 20px;
-  border-bottom: none; 
+  border-bottom: none;
 }
 
 .form-field {
@@ -377,7 +422,7 @@ export default {
 }
 
 .photo-upload-label {
-  font: 700 18px'PT Root UI', sans-serif;
+  font: 700 18px 'PT Root UI', sans-serif;
   display: flex;
   align-items: center;
   gap: 10px;
