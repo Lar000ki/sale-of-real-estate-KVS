@@ -18,7 +18,10 @@
             <div class="form-row">
               <div class="form-field">
                 <label for="category" class="field-label">Категория</label>
-                <input v-model="object.category" type="text" class="field-value-with-icon"/>
+                <select v-model="object.category" class="field-value-with-icon">
+                  <option value="Квартира">Квартира</option>
+                  <option value="Дом">Дом</option>
+                </select>
               </div>
               <div class="form-field">
                 <label for="property-type" class="field-label">Тип недвижимости</label>
@@ -94,7 +97,7 @@
 
 <script>
 export default {
-  name: 'ObjectsAdd',
+  name: 'ObjectsEdit',
   data() {
     return {
       object: {
@@ -114,29 +117,57 @@ export default {
       photos: [] // Для хранения загруженных фотографий
     };
   },
+  created() {
+    // Загрузка объекта и фотографий при создании компонента
+    this.loadObject();
+    this.loadPhotos();
+  },
   methods: {
-    // Метод для сохранения объекта и фотографий на сервере
-    async saveObject() {
+    async loadObject() {
+      // Метод для загрузки данных объекта с сервера
+      const objectId = this.$route.params.id;
       try {
-        // Сохранение объекта
-        const response = await fetch('http://localhost:3000/objects', {
-          method: 'POST',
+        const response = await fetch(`http://localhost:3000/objects/${objectId}`);
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки объекта');
+        }
+        const data = await response.json();
+        this.object = data;
+      } catch (error) {
+        console.error('Ошибка загрузки объекта:', error);
+      }
+    },
+    async loadPhotos() {
+      // Метод для загрузки фотографий объекта с сервера
+      const objectArt = this.object.art;
+      try {
+        const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`);
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки фотографий');
+        }
+        const data = await response.json();
+        this.photos = data.photos.map(photo => ({
+          ...photo,
+          path: `http://localhost:3000/${photo.path}`
+        }));
+      } catch (error) {
+        console.error('Ошибка загрузки фотографий:', error);
+      }
+    },
+    async saveObject() {
+      // Метод для сохранения изменений объекта на сервере
+      const objectId = this.$route.params.id;
+      try {
+        const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(this.object)
         });
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error('Ошибка ответа сервера:', errorText);
           throw new Error('Ошибка сохранения объекта');
         }
-        const data = await response.json();
-        const objectId = data.id;
-
-        // Сохранение фотографий после сохранения объекта
-        await this.savePhotos(objectId);
-
         alert('Объект сохранен');
         this.$router.push('/objects');
       } catch (error) {
@@ -144,46 +175,57 @@ export default {
         alert('Ошибка сохранения объекта');
       }
     },
-    // Метод для обработки загрузки фотографий
-    handleFileUpload(event) {
+    cancelEdit() {
+      // Метод для отмены редактирования объекта и возврата на предыдущую страницу
+      this.$router.push('/objects');
+    },
+    async handleFileUpload(event) {
+      // Метод для обработки загрузки фотографий на сервер
+      const formData = new FormData();
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.photos.push({ preview: e.target.result, file: files[i], name: files[i].name });
-        };
-        reader.readAsDataURL(files[i]);
-      }
-    },
-    // Метод для сохранения фотографий на сервере
-    async savePhotos(objectId) {
-      const formData = new FormData();
-      for (let i = 0; i < this.photos.length; i++) {
-        formData.append('photos', this.photos[i].file);
+        formData.append('photos', files[i]);
       }
 
+      const objectArt = this.object.art;
       try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
+        const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`, {
           method: 'POST',
           body: formData
         });
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error('Ошибка ответа сервера при сохранении фотографий:', errorText);
           throw new Error('Ошибка загрузки фотографий');
         }
+        const data = await response.json();
+        // Обновляем список фотографий после загрузки
+        this.photos = this.photos.concat(data.photoPaths.map(path => ({ path })));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
         alert('Ошибка загрузки фотографий');
       }
     },
-    // Метод для отмены редактирования объекта и возврата на предыдущую страницу
-    cancelEdit() {
-      this.$router.push('/objects');
-    },
-    // Метод для удаления фотографии из предварительного просмотра
-    deletePhoto(index) {
-      this.photos.splice(index, 1);
+    async deletePhoto(index) {
+      // Метод для удаления фотографии с сервера
+      const objectArt = this.object.art;
+      const photoToDelete = this.photos[index];
+
+      try {
+        const response = await fetch(`http://localhost:3000/objectsdel/${objectArt}/photos/${photoToDelete.filename}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ delete: true })
+        });
+        if (!response.ok) {
+          throw new Error('Ошибка удаления фотографии');
+        }
+        alert('Фотография удалена');
+        this.photos.splice(index, 1);
+      } catch (error) {
+        console.error('Ошибка удаления фотографии:', error);
+        alert('Ошибка удаления фотографии');
+      }
     }
   }
 };

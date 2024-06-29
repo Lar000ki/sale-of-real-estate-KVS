@@ -114,17 +114,14 @@ export default {
         clientid: '',
         description: ''
       },
-      photos: [] // Для хранения загруженных фотографий
+      photos: []
     };
   },
   created() {
-    // Загрузка объекта и фотографий при создании компонента
     this.loadObject();
-    this.loadPhotos();
   },
   methods: {
     async loadObject() {
-      // Метод для загрузки данных объекта с сервера
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}`);
@@ -133,15 +130,15 @@ export default {
         }
         const data = await response.json();
         this.object = data;
+        await this.loadPhotos();
       } catch (error) {
         console.error('Ошибка загрузки объекта:', error);
       }
     },
     async loadPhotos() {
-      // Метод для загрузки фотографий объекта с сервера
-      const objectId = this.$route.params.id;
+      const objectArt = this.object.art;
       try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`);
+        const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки фотографий');
         }
@@ -155,7 +152,6 @@ export default {
       }
     },
     async saveObject() {
-      // Метод для сохранения изменений объекта на сервере
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
@@ -176,20 +172,18 @@ export default {
       }
     },
     cancelEdit() {
-      // Метод для отмены редактирования объекта и возврата на предыдущую страницу
       this.$router.push('/objects');
     },
     async handleFileUpload(event) {
-      // Метод для обработки загрузки фотографий на сервер
       const formData = new FormData();
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
         formData.append('photos', files[i]);
       }
 
-      const objectId = this.$route.params.id;
+      const objectArt = this.object.art;
       try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
+        const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`, {
           method: 'POST',
           body: formData
         });
@@ -197,7 +191,6 @@ export default {
           throw new Error('Ошибка загрузки фотографий');
         }
         const data = await response.json();
-        // Обновляем список фотографий после загрузки
         this.photos = this.photos.concat(data.photoPaths.map(path => ({ path })));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
@@ -205,12 +198,11 @@ export default {
       }
     },
     async deletePhoto(index) {
-      // Метод для удаления фотографии с сервера
-      const objectId = this.$route.params.id;
+      const objectArt = this.object.art;
       const photoToDelete = this.photos[index];
 
       try {
-        const response = await fetch(`http://localhost:3000/objectsdel/${objectId}/photos/${photoToDelete.filename}`, {
+        const response = await fetch(`http://localhost:3000/objectsdel/${objectArt}/photos/${photoToDelete.filename}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

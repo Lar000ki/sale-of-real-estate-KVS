@@ -12,7 +12,7 @@ const port = 3000;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'qwerty050',
+  password: '20Lw0aTiIYLvyZZ',
   database: 'kvs'
 });
 
@@ -142,7 +142,7 @@ app.post('/objectsadd', async (req, res) => {
     );
 
     if (result.affectedRows === 1) {
-      const objectId = result.insertId; // Получаем ID нового объекта
+      const objectId = result.insertId;
       res.status(201).json({ message: 'Объект успешно добавлен', objectId });
     } else {
       res.status(500).json({ error: 'Ошибка добавления объекта' });
