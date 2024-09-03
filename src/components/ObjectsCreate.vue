@@ -104,7 +104,7 @@
 
 <script>
 export default {
-  name: 'ObjectsAdd',
+  name: 'ObjectsEdit',
   data() {
     return {
       object: {
@@ -124,30 +124,26 @@ export default {
       errors: {} // Хранит ошибки валидации
     };
   },
+  created() {
+    // Загрузка объекта и фотографий при создании компонента
+    this.loadObject();
+    this.loadPhotos();
+  },
   methods: {
-  // Метод для сохранения объекта и фотографий на сервере
   async saveObject() {
     if (this.validateForm()) {
+      const objectId = this.$route.params.id;
       try {
-        // Сохранение объекта
-        const response = await fetch('http://localhost:3000/objects', {
-          method: 'POST',
+        const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(this.object)
         });
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error('Ошибка ответа сервера:', errorText);
           throw new Error('Ошибка сохранения объекта');
         }
-        const data = await response.json();
-        const objectId = data.id;
-
-        // Сохранение фотографий после сохранения объекта
-        await this.savePhotos(objectId);
-
         alert('Объект сохранен');
         this.$router.push('/objects');
       } catch (error) {
@@ -156,18 +152,23 @@ export default {
       }
     }
   },
-  // Метод для обработки загрузки фотографий
-  handleFileUpload(event) {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.photos.push({ preview: e.target.result, file: files[i], name: files[i].name });
-      };
-      reader.readAsDataURL(files[i]);
+  async loadPhotos() {
+    // Метод для загрузки фотографий объекта с сервера
+    const objectArt = this.object.art;
+    try {
+      const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`);
+      if (!response.ok) {
+        throw new Error('Ошибка загрузки фотографий');
+      }
+      const data = await response.json();
+      this.photos = data.photos.map(photo => ({
+        ...photo,
+        path: `http://localhost:3000/${photo.path}`
+      }));
+    } catch (error) {
+      console.error('Ошибка загрузки фотографий:', error);
     }
   },
-  // Метод для сохранения фотографий на сервере
   async savePhotos(objectId) {
     const formData = new FormData();
     for (let i = 0; i < this.photos.length; i++) {
@@ -189,15 +190,22 @@ export default {
       alert('Ошибка загрузки фотографий');
     }
   },
-  // Метод для отмены редактирования объекта и возврата на предыдущую страницу
+  handleFileUpload(event) {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.photos.push({ preview: e.target.result, file: files[i], name: files[i].name });
+      };
+      reader.readAsDataURL(files[i]);
+    }
+  },
   cancelEdit() {
     this.$router.push('/objects');
   },
-  // Метод для удаления фотографии из предварительного просмотра
   deletePhoto(index) {
     this.photos.splice(index, 1);
   },
-  // Метод для валидации формы
   validateForm() {
     this.errors = {};
     let isValid = true;

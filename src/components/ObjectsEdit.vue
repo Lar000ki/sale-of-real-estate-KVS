@@ -127,7 +127,6 @@ export default {
   },
   created() {
     this.loadObject();
-    this.loadPhotos();
   },
   methods: {
     async loadObject() {
@@ -137,6 +136,7 @@ export default {
         if (!response.ok) throw new Error('Ошибка загрузки объекта');
         const data = await response.json();
         this.object = data;
+        await this.loadPhotos();
       } catch (error) {
         console.error('Ошибка загрузки объекта:', error);
         alert('Ошибка загрузки объекта');
@@ -230,9 +230,9 @@ export default {
         formData.append('photos', files[i]);
       }
 
-      const objectId = this.$route.params.id;
+      const objectArt = this.object.art;
       try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
+        const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`, {
           method: 'POST',
           body: formData
         });

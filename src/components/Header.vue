@@ -12,7 +12,7 @@
         <router-link v-if="isLoggedIn" to="/objects" class="nav-item">
           <span class="objects-link">Объекты</span>
         </router-link>
-        <router-link v-if="isLoggedIn" to="/settings" class="nav-item">
+        <router-link v-if="isLoggedIn" to="/profile" class="nav-item">
           <span class="settings-link">Общие настройки</span>
         </router-link>
       </div>
