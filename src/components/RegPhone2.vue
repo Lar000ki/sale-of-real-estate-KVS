@@ -15,12 +15,20 @@
         </div>
         <div class="div-10">
           <div class="div-11">СМС-код</div>
-          <input v-model="smsCode" class="div-12" type="text" placeholder="XXXX">
+          <input
+            v-model="smsCode"
+            class="div-12"
+            type="text"
+            placeholder="XXXX"
+            @input="formatSmsCode"
+            :class="{ 'input-error': smsCodeError }"
+          />
+          <div v-if="smsCodeError" class="error-message">{{ smsCodeError }}</div>
         </div>
-        <div class="div-13" @click="verifySmsCode">Зарегистрироваться</div>
+        <button class="div-13" @click="verifySmsCode" type="button">Зарегистрироваться</button>
         <div class="div-14">
           <div class="div-15">Не получили код?</div>
-          <div class="div-16" @click="resendSmsCode">Отправить снова</div>
+          <button class="div-16" @click="resendSmsCode" type="button">Отправить снова</button>
         </div>
       </div>
     </div>
@@ -33,15 +41,35 @@ export default {
   props: ['phone'],
   data() {
     return {
-      smsCode: ''
+      smsCode: '',
+      smsCodeError: '' 
     };
   },
   methods: {
+    formatSmsCode(event) {
+      // Удаляем все нецифровые символы
+      let input = event.target.value.replace(/\D/g, '');
+      // Ограничиваем ввод до 4 символов
+      if (input.length > 4) {
+        input = input.slice(0, 4);
+      }
+      this.smsCode = input;
+    },
+    validateSmsCode() {
+      if (this.smsCode.length !== 4) {
+        this.smsCodeError = 'Код должен содержать 4 цифры.';
+        return false;
+      }
+      this.smsCodeError = '';
+      return true;
+    },
     verifySmsCode() {
-      if (this.smsCode === '0000') {
-        this.$router.push({ name: 'RegPass', params: { phone: this.phone } });
-      } else {
-        alert('Неправильный код');
+      if (this.validateSmsCode()) {
+        if (this.smsCode === '0000') {
+          this.$router.push({ name: 'RegPass', params: { phone: this.phone } });
+        } else {
+          alert('Неправильный код');
+        }
       }
     },
     resendSmsCode() {
@@ -52,7 +80,17 @@ export default {
 </script>
 
 
+
 <style scoped>
+.input-error {
+  border: 2px solid #f44336; 
+}
+
+.error-message {
+  color: #f44336; 
+  font-size: 0.875rem; 
+  margin-top: 0.5rem; 
+}
 
 .div-6 {
   display: flex; 
@@ -62,11 +100,9 @@ export default {
   margin-top: -3vh;
 }
 
-
 .column {
   width: 50%; 
 }
-
 
 .img-3 {
   width: 100%; 
@@ -89,7 +125,7 @@ export default {
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
   margin-left: 10vw;
-  margin-top:-5vw;
+  margin-top: -5vw;
 }
 
 .div-8 {
@@ -113,6 +149,7 @@ export default {
   max-width: 100%;
   flex-direction: column;
 }
+
 .div-11 {
   color: var(--GreyDarkMain, #292f36);
   text-align: left;
@@ -134,19 +171,17 @@ export default {
 }
 
 .div-13 {
-  font-feature-settings: "clig" off, "liga" off;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
   background-color: var(--Accent, #008ad7);
-  margin-top: 1vw;
+  color: #fff;
+  font: 700 18px/133% PT Root UI, sans-serif;
+  text-align: center;
+  padding: 13px 28px;
   width: 470px;
   max-width: 100%;
-  color: #fff;
-  text-align: center;
-  letter-spacing: 0.36px;
-  padding: 13px 28px;
-  font: 700 18px/133% PT Root UI, sans-serif;
+  border: none;
+  border-radius: 4px;
+  margin-top: 1vw; /* Отступ сверху */
+  cursor: pointer;
 }
 
 .div-14 {
@@ -168,10 +203,21 @@ export default {
   font-family: PT Root UI, sans-serif;
   font-weight: 400;
 }
+
 .div-16 {
   color: var(--Accent, #008ad7);
   font-feature-settings: "clig" off, "liga" off;
   font-family: PT Root UI, sans-serif;
   font-weight: 700;
+  background: none;
+  border: none;
+  text-align: center;
+  padding: px 39px; 
+  cursor: pointer;
+}
+
+.div-16:hover {
+  background: none;
+  color: var(--Accent, #008ad7);
 }
 </style>

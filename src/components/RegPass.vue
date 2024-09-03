@@ -1,11 +1,7 @@
 <template>
   <div class="div-6">
     <div class="column">
-      <img
-        loading="lazy"
-        :src="require('@/assets/hotel1.png')"
-        class="img-3"
-      />
+      <img loading="lazy" :src="require('@/assets/hotel1.png')" class="img-3" />
     </div>
     <div class="column-2">
       <div class="div-7">
@@ -13,17 +9,32 @@
         <div class="div-9">Придумайте пароль</div>
         <div class="div-10">
           <div class="div-11">Пароль</div>
-          <input v-model="password" class="div-12" type="password" placeholder="Введите пароль">
+          <input 
+            v-model="password" 
+            class="div-12" 
+            type="password" 
+            placeholder="Введите пароль"
+            :class="{ 'input-error': passwordError }"
+          />
+          <div v-if="passwordError" class="error-message">{{ passwordError }}</div>
         </div>
         <div class="div-13">
           <div class="div-14">Повторите пароль</div>
-          <input v-model="confirmPassword" class="div-15" type="password" placeholder="Повторите пароль">
+          <input 
+            v-model="confirmPassword" 
+            class="div-15" 
+            type="password" 
+            placeholder="Повторите пароль"
+            :class="{ 'input-error': confirmPasswordError }"
+          />
+          <div v-if="confirmPasswordError" class="error-message">{{ confirmPasswordError }}</div>
         </div>
-        <div class="div-16" @click="continueRegistration">Продолжить</div>
+        <button class="div-16" @click="continueRegistration" type="button">Продолжить</button>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -34,34 +45,95 @@ export default {
   data() {
     return {
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      passwordError: '',
+      confirmPasswordError: ''
     };
   },
   methods: {
-    async continueRegistration() {
+    validatePassword() {
+      if (this.password.length < 6) {
+        this.passwordError = 'Пароль должен содержать минимум 6 символов.';
+        return false;
+      }
+      this.passwordError = '';
+      return true;
+    },
+    validateConfirmPassword() {
       if (this.password !== this.confirmPassword) {
-        alert('Пароли не совпадают');
+        this.confirmPasswordError = 'Пароли не совпадают.';
+        return false;
+      }
+      this.confirmPasswordError = '';
+      return true;
+    },
+    async continueRegistration() {
+      // Проверка на валидацию перед отправкой формы
+      if (!this.validatePassword() || !this.validateConfirmPassword()) {
         return;
       }
+
       try {
         const response = await axios.post('http://localhost:3000/register', {
           phone: this.phone,
           pass: this.password
         });
         if (response.status === 201) {
-          alert('User registered successfully');
+          alert('Пользователь успешно зарегистрирован');
           this.$router.push({ name: 'RegFinal' });
         }
       } catch (error) {
-        console.error('Error registering user:', error);
-        alert('Error registering user');
+        console.error('Ошибка регистрации пользователя:', error);
+        alert('Ошибка регистрации пользователя');
       }
     }
   }
 };
 </script>
 
+
+
 <style scoped>
+/* Универсальный стиль для кнопок */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Стили для кнопки регистрации */
+.div-16 {
+  background-color: var(--Accent, #008ad7);
+  color: #fff;
+  font: 700 18px/133% PT Root UI, sans-serif;
+  text-align: center;
+  padding: 13px 28px;
+}
+
+/* Обновленные стили для ошибок */
+.input-error {
+  border: 2px solid #f44336; 
+}
+
+.error-message {
+  color: #f44336; 
+  font-size: 0.875rem; 
+  margin-top: 0.5rem; 
+}
+
+/* Оставляем остальные стили без изменений */
 .div-6 {
   gap: 20px;
   display: flex;
@@ -69,21 +141,21 @@ export default {
 }
 
 .column {
-  width: 50%; 
+  width: 50%;
 }
 
-
 .img-3 {
-  width: 100%; 
-  max-width: 100%; 
+  width: 100%;
+  max-width: 100%;
 }
 
 .column-2 {
-  width: 50%; 
-  display: flex; 
-  justify-content: flex-start; 
-  align-items: flex-start; 
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
+
 .div-7 {
   justify-content: left;
   align-items: left;
@@ -93,7 +165,7 @@ export default {
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
   margin-left: 10vw;
-  margin-top:15vh;
+  margin-top: 15vh;
 }
 
 .div-8 {
@@ -148,8 +220,8 @@ export default {
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
-
 }
+
 .div-15 {
   align-items: start;
   border-radius: 4px;
@@ -178,5 +250,4 @@ export default {
   padding: 13px 28px;
   font: 700 18px/133% PT Root UI, sans-serif;
 }
-
 </style>

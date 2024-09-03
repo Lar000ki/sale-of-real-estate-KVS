@@ -1,11 +1,7 @@
 <template>
   <div class="div-6">
     <div class="column">
-      <img
-        loading="lazy"
-        :src="require('@/assets/hotel1.png')"
-        class="img-3"
-      />
+      <img loading="lazy" :src="require('@/assets/hotel1.png')" class="img-3" />
     </div>
     <div class="column-2">
       <div class="div-7">
@@ -16,28 +12,65 @@
         </div>
         <div class="div-10">
           <div class="div-11">Телефон</div>
-          <input v-model="phone" class="div-12" type="text" placeholder="+7 (900) 000 00 00">
+          <input
+            v-model="phone"
+            class="div-12"
+            type="text"
+            placeholder="+7 (___) ___-__-__"
+            @input="formatPhone"
+            :class="{ 'input-error': phoneError }"
+          />
+          <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
         </div>
-        <div class="div-13" @click="sendSmsCode">Получить смс-код</div>
+        <button class="div-13" @click="sendSmsCode" type="button">Получить смс-код</button>
         <div class="div-14">
           <div class="div-15">У вас уже есть аккаунт?</div>
-          <div class="div-16" @click="redirectToLogin">Войти</div>
+          <button class="div-16" @click="redirectToLogin" type="button">Войти</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'RegPhone',
   data() {
     return {
-      phone: ''
+      phone: '',
+      phoneError: ''
     };
   },
   methods: {
+    formatPhone(event) {
+      let input = event.target.value.replace(/\D/g, ''); 
+      if (input.length > 11) input = input.slice(0, 11); 
+
+      // Форматирование номера
+      let formatted = '+7 ';
+      if (input.length > 1) formatted += `(${input.slice(1, 4)}`;
+      if (input.length >= 4) formatted += `) ${input.slice(4, 7)}`;
+      if (input.length >= 7) formatted += `-${input.slice(7, 9)}`;
+      if (input.length >= 9) formatted += `-${input.slice(9, 11)}`;
+
+      this.phone = formatted;
+    },
+    validatePhone() {
+      // Проверяем формат телефона
+      const phonePattern = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+      if (!phonePattern.test(this.phone)) {
+        this.phoneError = 'Введите корректный номер телефона.';
+        return false;
+      }
+      this.phoneError = '';
+      return true;
+    },
     sendSmsCode() {
+      if (!this.validatePhone()) {
+        return;
+      }
+
       this.$router.push({ name: 'RegPhone2', params: { phone: this.phone } });
     },
     redirectToLogin() {
@@ -47,8 +80,71 @@ export default {
 };
 </script>
 
-
 <style scoped>
+/* Стили для кнопки "Получить смс-код" */
+.div-13 {
+  background-color: var(--Accent, #008ad7);
+  color: #fff;
+  font: 700 18px/133% PT Root UI, sans-serif;
+  text-align: center;
+  padding: 12px;
+  width: 470px;
+  max-width: 100%;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Стили для кнопки "Войти" */
+.div-16 {
+  color: var(--Accent, #008ad7);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: PT Root UI, sans-serif;
+  font-weight: 700;
+  background: none;
+  border: none;
+  text-align: center;
+  padding: 12px;
+  cursor: pointer;
+}
+
+/* Убираем стили при наведении для кнопки "Войти" */
+.div-16:hover {
+  background: none; /* Убедитесь, что фон не меняется */
+  color: var(--Accent, #008ad7); /* Цвет текста остается прежним */
+  /* Можно добавить другие стили, если это необходимо */
+}
+
+/* Общие стили для кнопок */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Стили для ошибок */
+.input-error {
+  border: 2px solid #f44336; 
+}
+
+.error-message {
+  color: #f44336; 
+  font-size: 0.875rem; 
+  margin-top: 0.5rem; 
+}
+
+/* Стили для остальных элементов */
 .div-6 {
   display: flex; 
   gap: 20px; 
@@ -60,7 +156,6 @@ export default {
 .column {
   width: 50%; 
 }
-
 
 .img-3 {
   width: 100%; 
@@ -83,7 +178,7 @@ export default {
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
   margin-left: 10vw;
-  margin-top:-5vw;
+  margin-top: -5vw;
 }
 
 .div-8 {
@@ -100,19 +195,18 @@ export default {
 .div-10 {
   background-color: #fff;
   display: flex;
-  margin-top:1vw;
+  margin-top: 1vw;
   width: 470px;
   max-width: 100%;
   flex-direction: column;
-  
 }
+
 .div-11 {
   color: var(--GreyDarkMain, #292f36);
   text-align: left;
   font-feature-settings: "clig" off, "liga" off;
   letter-spacing: 0.32px;
   font: 700 16px PT Root UI, sans-serif;
-  
 }
 
 .div-12 {
@@ -125,22 +219,6 @@ export default {
   justify-content: center;
   border: none;
   font: 500 18px PT Root UI, sans-serif;
-}
-
-.div-13 {
-  font-feature-settings: "clig" off, "liga" off;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background-color: var(--Accent, #008ad7);
-  margin-top: 1vw;
-  padding: 12px;
-  width: 470px;
-  max-width: 100%;
-  color: #fff;
-  text-align: center;
-  letter-spacing: 0.36px;
-  font: 700 18px/133% PT Root UI, sans-serif;
 }
 
 .div-14 {
@@ -162,10 +240,5 @@ export default {
   font-family: PT Root UI, sans-serif;
   font-weight: 400;
 }
-.div-16 {
-  color: var(--Accent, #008ad7);
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: PT Root UI, sans-serif;
-  font-weight: 700;
-}
 </style>
+

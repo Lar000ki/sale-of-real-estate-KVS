@@ -1,41 +1,47 @@
 <template>
-  <div class="div-12">
-    <div class="div-13">Личные данные</div>
-    <div class="div-14">
-      <div class="div-15">
-        <div class="column">
-          <div class="div-16">
-            <div class="div-17">
-              <div class="div-18">Фамилия</div>
-              <input v-model="profile.lastname" type="text" class="input-field" />
-            </div>
-            <div class="div-20">
-              <div class="div-21">Имя</div>
-              <input v-model="profile.firstname" type="text" class="input-field" />
-            </div>
-            <div class="div-23">
-              <div class="div-24">Телефон</div>
-              <input v-model="profile.phone" type="text" class="input-field" />
-            </div>
+  <div class="profile-container">
+    <div class="profile-header">Личные данные</div>
+    <div class="profile-form">
+      <div class="form-columns">
+        <div class="form-column">
+          <div class="form-group">
+            <div class="form-label">Фамилия</div>
+            <input v-model="profile.lastname" type="text" class="input-field" />
+            <div v-if="errors.lastname" class="error-message">{{ errors.lastname }}</div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Имя</div>
+            <input v-model="profile.firstname" type="text" class="input-field" />
+            <div v-if="errors.firstname" class="error-message">{{ errors.firstname }}</div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Телефон</div>
+            <input
+              v-model="profile.phone"
+              type="text"
+              class="input-field"
+              @input="formatPhone"
+            />
+            <div v-if="errors.phone" class="error-message">{{ errors.phone }}</div>
           </div>
         </div>
-        <div class="column">
-          <div class="div-26">
-            <div class="div-27">
-              <div class="div-28">Старый пароль</div>
-              <input v-model="oldPassword" type="password" class="input-field" />
-            </div>
-            <div class="div-30">
-              <div class="div-31">Новый пароль</div>
-              <input v-model="newPassword" type="password" class="input-field" />
-            </div>
+        <div class="form-column">
+          <div class="form-group">
+            <div class="form-label">Старый пароль</div>
+            <input v-model="oldPassword" type="password" class="input-field" />
+            <div v-if="errors.oldPassword" class="error-message">{{ errors.oldPassword }}</div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Новый пароль</div>
+            <input v-model="newPassword" type="password" class="input-field" />
+            <div v-if="errors.newPassword" class="error-message">{{ errors.newPassword }}</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="div-33">
-      <button @click="updateProfile" class="div-34">Сохранить</button>
-      <button @click="cancel" class="div-35">Отменить</button>
+    <div class="button-group">
+      <button @click="updateProfile" class="save-button">Сохранить</button>
+      <button @click="cancel" class="cancel-button">Отменить</button>
     </div>
   </div>
 </template>
@@ -52,7 +58,14 @@ export default {
         phone: ''
       },
       oldPassword: '',
-      newPassword: ''
+      newPassword: '',
+      errors: {
+        firstname: '',
+        lastname: '',
+        phone: '',
+        oldPassword: '',
+        newPassword: ''
+      }
     };
   },
   created() {
@@ -68,12 +81,75 @@ export default {
         this.profile.phone = user.phone;
       }
     },
+    formatPhone(event) {
+      let input = event.target.value.replace(/\D/g, ''); 
+      if (input.length > 11) input = input.slice(0, 11); 
+
+      let formatted = '+7 ';
+      if (input.length > 1) formatted += `(${input.slice(1, 4)}`;
+      if (input.length >= 4) formatted += `) ${input.slice(4, 7)}`;
+      if (input.length >= 7) formatted += `-${input.slice(7, 9)}`;
+      if (input.length >= 9) formatted += `-${input.slice(9, 11)}`;
+
+      this.profile.phone = formatted;
+    },
+    validateFirstname() {
+      if (!this.profile.firstname) {
+        this.errors.firstname = 'Имя не может быть пустым.';
+        return false;
+      }
+      this.errors.firstname = '';
+      return true;
+    },
+    validateLastname() {
+      if (!this.profile.lastname) {
+        this.errors.lastname = 'Фамилия не может быть пустой.';
+        return false;
+      }
+      this.errors.lastname = '';
+      return true;
+    },
+    validatePhone() {
+      const phonePattern = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+      if (!phonePattern.test(this.profile.phone)) {
+        this.errors.phone = 'Введите корректный номер телефона.';
+        return false;
+      }
+      this.errors.phone = '';
+      return true;
+    },
+    validatePasswords() {
+      if (this.oldPassword && this.newPassword && this.oldPassword === this.newPassword) {
+        this.errors.newPassword = 'Новый пароль не должен совпадать со старым.';
+        return false;
+      }
+      if (this.newPassword && this.newPassword.length < 6) {
+        this.errors.newPassword = 'Пароль должен содержать минимум 6 символов.';
+        return false;
+      }
+      this.errors.oldPassword = '';
+      this.errors.newPassword = '';
+      return true;
+    },
     async updateProfile() {
+      // Валидация перед отправкой формы
+      const isValid =
+        this.validateFirstname() &&
+        this.validateLastname() &&
+        this.validatePhone() &&
+        this.validatePasswords();
+
+      if (!isValid) {
+        return;
+      }
+
+      // Удаляем маску перед отправкой
+      const phone = this.profile.phone.replace(/\D/g, '');
       const payload = {
         id: this.profile.id,
         firstname: this.profile.firstname,
         lastname: this.profile.lastname,
-        phone: this.profile.phone,
+        phone: phone,
         oldPassword: this.oldPassword,
         newPassword: this.newPassword
       };
@@ -110,7 +186,7 @@ export default {
 </script>
 
 <style scoped>
-.div-12 {
+.profile-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -118,54 +194,40 @@ export default {
   margin-left: 5vw;
 }
 
-.div-13 {
+.profile-header {
   color: var(--GreyDarkMain, #292f36);
   font: 700 42px PT Root UI, sans-serif;
 }
 
-.div-14 {
+.profile-form {
   margin-top: 1vw;
-  width: 1620px;
-  max-width: 100%;
+  width: 100%;
 }
 
-.div-15 {
+.form-columns {
   display: flex;
   gap: 20px;
 }
 
-.column {
+.form-column {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
 
-.div-16, .div-20, .div-23 {
+.form-group {
   font: 700 16px PT Root UI, sans-serif;
   letter-spacing: 0.32px;
   display: flex;
   flex-direction: column;
 }
 
-.div-17, .div-27, .div-30 {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-}
-
-.div-18, .div-21, .div-24, .div-28 {
+.form-label {
   font: 700 16px PT Root UI, sans-serif;
   letter-spacing: 0.32px;
   display: flex;
   text-align: left;
   margin-top: 1vw;
-}
-
-.div-31 {
-  font: 700 16px PT Root UI, sans-serif;
-  letter-spacing: 0.32px;
-  text-align: left;
-  margin-top: 2vw;
 }
 
 .input-field {
@@ -177,14 +239,7 @@ export default {
   border: none;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  margin-top: 1vw;
-}
-
-.div-33 {
+.button-group {
   display: flex;
   gap: 20px;
   font-size: 16px;
@@ -192,7 +247,7 @@ export default {
   padding-top: 40px;
 }
 
-.div-34, .div-35 {
+.save-button, .cancel-button {
   font-feature-settings: "clig" off, "liga" off;
   font-family: PT Root UI, sans-serif;
   padding: 13px 28px;
@@ -200,13 +255,13 @@ export default {
   border: none;
 }
 
-.div-34 {
+.save-button {
   background-color: var(--Accent, #008ad7);
   color: #fff;
   font: 700 18px PT Root UI, sans-serif;
 }
 
-.div-35 {
+.cancel-button {
   background: none;
   color: var(--Red, #a41010);
   border: none;

@@ -12,41 +12,47 @@
               </div>
               <div class="form-field">
                 <label for="title" class="field-label">Заголовок</label>
-                <input v-model="object.title" type="text" class="field-value"/>
+                <input v-model="object.title" type="text" class="field-value" />
+                <div v-if="errors.title" class="error-message">{{ errors.title }}</div>
               </div>
             </div>
             <div class="form-row">
               <div class="form-field">
                 <label for="category" class="field-label">Категория</label>
-                <select v-model="object.category" class="field-value-with-icon">
+                <select v-model="object.category" class="field-value">
                   <option value="Квартира">Квартира</option>
                   <option value="Дом">Дом</option>
                 </select>
+                <div v-if="errors.category" class="error-message">{{ errors.category }}</div>
               </div>
               <div class="form-field">
                 <label for="property-type" class="field-label">Тип недвижимости</label>
-                <input v-model="object.type" type="text" class="field-value-with-icon"/>
+                <input v-model="object.type" type="text" class="field-value" />
+                <div v-if="errors.type" class="error-message">{{ errors.type }}</div>
               </div>
             </div>
-            
             <div class="form-row">
               <div class="form-field">
                 <label for="build-year" class="field-label">Год постройки</label>
-                <input v-model="object.year" type="number" class="field-value"/>
+                <input v-model="object.year" type="number" class="field-value" />
+                <div v-if="errors.year" class="error-message">{{ errors.year }}</div>
               </div>
               <div class="form-field">
                 <label for="rooms" class="field-label">Количество комнат</label>
-                <input v-model="object.rooms" type="number" class="field-value"/>
+                <input v-model="object.rooms" type="number" class="field-value" />
+                <div v-if="errors.rooms" class="error-message">{{ errors.rooms }}</div>
               </div>
             </div>
             <div class="form-row">
               <div class="form-field">
                 <label for="floors" class="field-label">Этажность</label>
-                <input v-model="object.floors" type="number" class="field-value"/>
+                <input v-model="object.floors" type="number" class="field-value" />
+                <div v-if="errors.floors" class="error-message">{{ errors.floors }}</div>
               </div>
               <div class="form-field">
                 <label for="floor" class="field-label">Этаж</label>
-                <input v-model="object.floor" type="number" class="field-value"/>
+                <input v-model="object.floor" type="number" class="field-value" />
+                <div v-if="errors.floor" class="error-message">{{ errors.floor }}</div>
               </div>
             </div>
           </div>
@@ -56,11 +62,13 @@
             <div class="form-field">
               <label for="description" class="field-label">Описание</label>
               <textarea v-model="object.description" class="field-value"></textarea>
+              <div v-if="errors.description" class="error-message">{{ errors.description }}</div>
             </div>
             <div class="form-row">
               <div class="form-field">
                 <label for="price" class="field-label">Цена</label>
-                <input v-model="object.price" type="number" class="field-value"/>
+                <input v-model="object.price" type="number" class="field-value" />
+                <div v-if="errors.price" class="error-message">{{ errors.price }}</div>
               </div>
               <div class="form-field">
                 <label for="client" class="field-label">Клиент</label>
@@ -73,15 +81,15 @@
       <div class="photo-upload-container">
         <div class="photo-upload">
           <label for="file-upload" class="photo-upload-label">
-            <img src="@/assets/upload.png" alt="Upload" class="upload-icon"/>
+            <img src="@/assets/upload.png" alt="Upload" class="upload-icon" />
             <span>Загрузите фото</span>
           </label>
-          <input id="file-upload" type="file" @change="handleFileUpload" accept="image/png, image/jpeg, image/jpg" multiple style="display: none"/>
+          <input id="file-upload" type="file" @change="handleFileUpload" accept="image/png, image/jpeg, image/jpg" multiple style="display: none" />
         </div>
         <div class="photos">
           <div v-for="(photo, index) in photos" :key="index" class="photo">
             <button @click="deletePhoto(index)" class="delete-button">×</button>
-            <img :src="photo.path" :alt="photo.filename" class="photo-img"/>
+            <img :src="photo.path" :alt="photo.filename" class="photo-img" />
           </div>
         </div>
       </div>
@@ -105,7 +113,6 @@ export default {
         type: '',
         title: '',
         category: '',
-        active: '',
         year: '',
         floors: '',
         floor: '',
@@ -114,37 +121,32 @@ export default {
         clientid: '',
         description: ''
       },
-      photos: [] // Для хранения загруженных фотографий
+      photos: [],
+      errors: {} // Хранит ошибки валидации
     };
   },
   created() {
-    // Загрузка объекта и фотографий при создании компонента
     this.loadObject();
     this.loadPhotos();
   },
   methods: {
     async loadObject() {
-      // Метод для загрузки данных объекта с сервера
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}`);
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки объекта');
-        }
+        if (!response.ok) throw new Error('Ошибка загрузки объекта');
         const data = await response.json();
         this.object = data;
       } catch (error) {
         console.error('Ошибка загрузки объекта:', error);
+        alert('Ошибка загрузки объекта');
       }
     },
     async loadPhotos() {
-      // Метод для загрузки фотографий объекта с сервера
       const objectId = this.$route.params.id;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`);
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки фотографий');
-        }
+        if (!response.ok) throw new Error('Ошибка загрузки фотографий');
         const data = await response.json();
         this.photos = data.photos.map(photo => ({
           ...photo,
@@ -152,35 +154,76 @@ export default {
         }));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
+        alert('Ошибка загрузки фотографий');
       }
     },
+    validateForm() {
+      this.errors = {};
+      let isValid = true;
+
+      if (!this.object.title) {
+        this.errors.title = 'Введите заголовок.';
+        isValid = false;
+      }
+      if (!this.object.category) {
+        this.errors.category = 'Выберите категорию.';
+        isValid = false;
+      }
+      if (!this.object.type) {
+        this.errors.type = 'Введите тип недвижимости.';
+        isValid = false;
+      }
+      if (!this.object.year || this.object.year < 1900 || this.object.year > new Date().getFullYear()) {
+        this.errors.year = 'Введите корректный год постройки.';
+        isValid = false;
+      }
+      if (!this.object.rooms || this.object.rooms < 1) {
+        this.errors.rooms = 'Введите корректное количество комнат.';
+        isValid = false;
+      }
+      if (!this.object.floors || this.object.floors < 1) {
+        this.errors.floors = 'Введите корректное количество этажей.';
+        isValid = false;
+      }
+      if (!this.object.floor || this.object.floor < 1 || this.object.floor > this.object.floors) {
+        this.errors.floor = 'Введите корректный этаж.';
+        isValid = false;
+      }
+      if (!this.object.price || this.object.price <= 0) {
+        this.errors.price = 'Введите корректную цену.';
+        isValid = false;
+      }
+      if (!this.object.description) {
+        this.errors.description = 'Введите описание.';
+        isValid = false;
+      }
+
+      return isValid;
+    },
     async saveObject() {
-      // Метод для сохранения изменений объекта на сервере
-      const objectId = this.$route.params.id;
-      try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.object)
-        });
-        if (!response.ok) {
-          throw new Error('Ошибка сохранения объекта');
+      if (this.validateForm()) {
+        const objectId = this.$route.params.id;
+        try {
+          const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.object)
+          });
+          if (!response.ok) throw new Error('Ошибка сохранения объекта');
+          alert('Объект сохранен');
+          this.$router.push('/objects');
+        } catch (error) {
+          console.error('Ошибка сохранения объекта:', error);
+          alert('Ошибка сохранения объекта');
         }
-        alert('Объект сохранен');
-        this.$router.push('/objects');
-      } catch (error) {
-        console.error('Ошибка сохранения объекта:', error);
-        alert('Ошибка сохранения объекта');
       }
     },
     cancelEdit() {
-      // Метод для отмены редактирования объекта и возврата на предыдущую страницу
       this.$router.push('/objects');
     },
     async handleFileUpload(event) {
-      // Метод для обработки загрузки фотографий на сервер
       const formData = new FormData();
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
@@ -193,11 +236,8 @@ export default {
           method: 'POST',
           body: formData
         });
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки фотографий');
-        }
+        if (!response.ok) throw new Error('Ошибка загрузки фотографий');
         const data = await response.json();
-        // Обновляем список фотографий после загрузки
         this.photos = this.photos.concat(data.photoPaths.map(path => ({ path })));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
@@ -205,21 +245,14 @@ export default {
       }
     },
     async deletePhoto(index) {
-      // Метод для удаления фотографии с сервера
       const objectId = this.$route.params.id;
       const photoToDelete = this.photos[index];
 
       try {
-        const response = await fetch(`http://localhost:3000/objectsdel/${objectId}/photos/${photoToDelete.filename}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ delete: true })
+        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos/${photoToDelete.filename}`, {
+          method: 'DELETE'
         });
-        if (!response.ok) {
-          throw new Error('Ошибка удаления фотографии');
-        }
+        if (!response.ok) throw new Error('Ошибка удаления фотографии');
         alert('Фотография удалена');
         this.photos.splice(index, 1);
       } catch (error) {
@@ -231,7 +264,64 @@ export default {
 };
 </script>
 
+<style scoped>
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
 
+.field-value {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.save-button, .cancel-button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.photo-upload-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.photo-img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+}
+
+.delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255, 0, 0, 0.7);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+</style>
 
 <style scoped>
 .object-edit-container {
