@@ -51,12 +51,12 @@
             {{ object.category }}
           </div>
         </section>
-        <section class="table-column">
+        <!-- <section class="table-column">
           <div class="table-header">Активность</div>
           <div v-for="object in objects" :key="object.id" class="table-cell" @click="editObject(object.id)">
             {{ object.active ? 'Да' : 'Нет' }}
           </div>
-        </section>
+        </section> -->
       </div>
     </section>
   </main>

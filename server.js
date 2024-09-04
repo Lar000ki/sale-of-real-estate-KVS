@@ -160,7 +160,7 @@ app.put('/objects/:id', async (req, res) => {
     type,
     title,
     category,
-    active,
+    //active,
     year,
     floors,
     floor,
@@ -169,16 +169,15 @@ app.put('/objects/:id', async (req, res) => {
     clientid,
     description
   } = req.body;
-
   try {
     const [result] = await pool.execute(
-      'UPDATE objects SET art = ?, type = ?, title = ?, category = ?, active = ?, year = ?, floors = ?, floor = ?, rooms = ?, price = ?, clientid = ?, description = ? WHERE id = ?',
+      'UPDATE objects SET art = ?, type = ?, title = ?, category = ?, active = null, year = ?, floors = ?, floor = ?, rooms = ?, price = ?, clientid = ?, description = ? WHERE id = ?',
       [
         art ?? null,
         type ?? null,
         title ?? null,
         category ?? null,
-        active ?? null,
+       //active ?? null,
         year ?? null,
         floors ?? null,
         floor ?? null,

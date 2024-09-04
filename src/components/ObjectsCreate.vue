@@ -130,7 +130,7 @@ export default {
     this.loadPhotos();
   },
   methods: {
-  async saveObject() {
+  async loadObject() {
     if (this.validateForm()) {
       const objectId = this.$route.params.id;
       try {
