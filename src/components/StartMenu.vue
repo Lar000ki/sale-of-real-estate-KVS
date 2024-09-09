@@ -32,37 +32,42 @@ export default {
 
 <style scoped>
 .div-6 {
-  display: flex; 
-  gap: 20px; 
-  justify-content: center; 
-  align-items: center; 
-  margin-top: -3vh;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  margin: 0; 
 }
 
 .column {
-  width: 50%; 
+  width: 50%;
+  display: flex; 
+  margin: 0; 
 }
 
 .img-3 {
   width: 100%;
-  max-width: 100%;
+  height: 100%; 
+  object-fit: cover; 
+  margin: 0; 
 }
-
 .column-2 {
   width: 50%;
-   
-  display: flex; 
-  justify-content: flex-start; 
+  display: flex;
+  justify-content: flex-start;
   align-items: flex-start;
+  margin: 0; 
 }
-
 .div-7 {
-  display: flex; 
-  flex-direction: column; 
-  justify-content: flex-start; 
-  align-items: flex-start; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   text-align: left;
   margin-left: 10vw;
+  height: 100%; 
+  box-sizing: border-box; 
 }
 
 .div-8 {

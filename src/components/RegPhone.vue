@@ -47,7 +47,7 @@ export default {
       let input = event.target.value.replace(/\D/g, ''); 
       if (input.length > 11) input = input.slice(0, 11); 
 
-      // Форматирование номера
+
       let formatted = '+7 ';
       if (input.length > 1) formatted += `(${input.slice(1, 4)}`;
       if (input.length >= 4) formatted += `) ${input.slice(4, 7)}`;
@@ -57,7 +57,7 @@ export default {
       this.phone = formatted;
     },
     validatePhone() {
-      // Проверяем формат телефона
+      
       const phonePattern = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
       if (!phonePattern.test(this.phone)) {
         this.phoneError = 'Введите корректный номер телефона.';
@@ -81,7 +81,46 @@ export default {
 </script>
 
 <style scoped>
-/* Стили для кнопки "Получить смс-код" */
+.div-6 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100vh; 
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.column, .column-2 {
+  flex: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+}
+
+.img-3 {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; 
+}
+.div-8 {
+  margin-top: 0;
+}
+.column-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: flex-start; 
+}
+
+
+
 .div-13 {
   background-color: var(--Accent, #008ad7);
   color: #fff;
@@ -94,7 +133,6 @@ export default {
   border-radius: 4px;
 }
 
-/* Стили для кнопки "Войти" */
 .div-16 {
   color: var(--Accent, #008ad7);
   font-feature-settings: "clig" off, "liga" off;
@@ -107,14 +145,12 @@ export default {
   cursor: pointer;
 }
 
-/* Убираем стили при наведении для кнопки "Войти" */
 .div-16:hover {
-  background: none; /* Убедитесь, что фон не меняется */
-  color: var(--Accent, #008ad7); /* Цвет текста остается прежним */
-  /* Можно добавить другие стили, если это необходимо */
+  background: none; 
+  color: var(--Accent, #008ad7); 
+ 
 }
 
-/* Общие стили для кнопок */
 button {
   background-color: #007bff;
   color: white;
@@ -133,7 +169,6 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Стили для ошибок */
 .input-error {
   border: 2px solid #f44336; 
 }
@@ -144,7 +179,6 @@ button:hover {
   margin-top: 0.5rem; 
 }
 
-/* Стили для остальных элементов */
 .div-6 {
   display: flex; 
   gap: 20px; 

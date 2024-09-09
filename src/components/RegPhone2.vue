@@ -47,9 +47,7 @@ export default {
   },
   methods: {
     formatSmsCode(event) {
-      // Удаляем все нецифровые символы
       let input = event.target.value.replace(/\D/g, '');
-      // Ограничиваем ввод до 4 символов
       if (input.length > 4) {
         input = input.slice(0, 4);
       }
@@ -82,6 +80,36 @@ export default {
 
 
 <style scoped>
+
+.div-6 {
+  display: flex; 
+  gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.column, .column-2 {
+  flex: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-3 {
+  width: 100%;
+  height: 100%; 
+  object-fit: cover; 
+}
+.column {
+  width: 50%; 
+  height: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .input-error {
   border: 2px solid #f44336; 
 }
@@ -180,7 +208,7 @@ export default {
   max-width: 100%;
   border: none;
   border-radius: 4px;
-  margin-top: 1vw; /* Отступ сверху */
+  margin-top: 1vw; 
   cursor: pointer;
 }
 

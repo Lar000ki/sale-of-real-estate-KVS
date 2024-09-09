@@ -86,7 +86,7 @@ export default {
       return true;
     },
     validatePassword() {
-      if (this.password.length < 6) { // Минимальная длина пароля
+      if (this.password.length < 6) { 
         this.passwordError = 'Пароль должен содержать минимум 6 символов.';
         return false;
       }
@@ -103,11 +103,11 @@ export default {
           
           const { token, user } = response.data;
 
-          // Сохранение токена и информации о пользователе в localStorage
+        
           localStorage.setItem('authToken', token);
           localStorage.setItem('user', JSON.stringify(user));
 
-          // Передача данных о пользователе на родительский компонент
+         
           this.$emit('login', user);
           this.$router.push({ name: 'ObjectsMenu' });
         } catch (error) {
@@ -118,13 +118,13 @@ export default {
     }
   },
   mounted() {
-    // Проверка, если пользователь уже авторизован
+  
     const token = localStorage.getItem('authToken');
     if (token) {
-      // Декодирование токена и получение данных пользователя
+    
       const user = JSON.parse(localStorage.getItem('user'));
       if (user) {
-        // Перенаправление на страницу, если пользователь уже авторизован
+       
         this.$router.push({ name: 'ObjectsMenu' });
       }
     }
@@ -133,6 +133,7 @@ export default {
 </script>
 
 <style scoped>
+
 button {
   background-color: #007bff;
   color: white;
@@ -145,10 +146,6 @@ button {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 
 .input-error {
@@ -166,12 +163,17 @@ button:hover {
   gap: 20px; 
   justify-content: center; 
   align-items: center; 
-  margin-top: -3vh;
+  height: 100vh; 
+  margin: 0; 
 }
 
 .column {
-  width: 50%; 
+  width: 50%;
+  display: flex;
+  align-items: center; 
+  height: 100%; 
 }
+
 
 .img-3 {
   width: 100%; 
@@ -310,9 +312,10 @@ button:hover {
   font-feature-settings: "clig" off, "liga" off;
   font-family: PT Root UI, sans-serif;
   font-weight: 700;
-  text-decoration: none; /* Убирает подчеркивание */
-  background: none; /* Убирает фон */
-  border: none; /* Убирает границу */
-  padding: 0; /* Убирает паддинг */
+  text-decoration: none; 
+  background: none; 
+  border: none; 
+  padding: 0; 
 }
+
 </style>

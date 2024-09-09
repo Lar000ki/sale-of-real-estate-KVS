@@ -77,7 +77,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1vh 1vw;
+  padding: 0 1vw;
   box-sizing: border-box;
   background-color: #2c2f34;
   color: white;
@@ -120,12 +120,12 @@ header {
 }
 
 .user-icon {
-  margin-right: 1vw;
+  margin-right: 0.5vw;
   max-width: 24px; 
 }
 
 .profile-name {
-  margin-left: 1vw;
+  margin-left: 0.5vw;
   margin-right: 1vw;  
   font-size: 18px; 
   color: white;

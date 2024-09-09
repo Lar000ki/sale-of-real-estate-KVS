@@ -94,7 +94,19 @@ export default {
 
 
 <style scoped>
-/* Универсальный стиль для кнопок */
+.img-3 {
+  width: 100%;
+  height: 100%; 
+  object-fit: cover; 
+}
+.column {
+  width: 50%; 
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 button {
   background-color: #007bff;
   color: white;
@@ -113,7 +125,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Стили для кнопки регистрации */
+
 .div-16 {
   background-color: var(--Accent, #008ad7);
   color: #fff;
@@ -122,7 +134,7 @@ button:hover {
   padding: 13px 28px;
 }
 
-/* Обновленные стили для ошибок */
+
 .input-error {
   border: 2px solid #f44336; 
 }
@@ -133,7 +145,7 @@ button:hover {
   margin-top: 0.5rem; 
 }
 
-/* Оставляем остальные стили без изменений */
+
 .div-6 {
   gap: 20px;
   display: flex;

@@ -189,7 +189,7 @@ export default {
 .profile-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90vw;
   margin-top: 10vh;
   margin-left: 5vw;
 }
