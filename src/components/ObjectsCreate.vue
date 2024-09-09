@@ -223,7 +223,6 @@ export default {
     const price = trimToString(this.object.price);
     const clientid = trimToString(this.object.clientid);
     const description = trimToString(this.object.description);
-
     if (!art) {
       this.errors.art = 'Введите артикул.';
       isValid = false;
@@ -286,7 +285,6 @@ export default {
       this.errors.description = 'Введите описание.';
       isValid = false;
     }
-
     return isValid;
   }
 }

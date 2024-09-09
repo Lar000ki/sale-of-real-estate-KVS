@@ -143,7 +143,7 @@ export default {
       }
     },
     async loadPhotos() {
-      const objectId = this.$route.params.id;
+      const objectId = this.object.art;
       try {
         const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`);
         if (!response.ok) throw new Error('Ошибка загрузки фотографий');
@@ -245,7 +245,7 @@ export default {
       }
     },
     async deletePhoto(index) {
-      const objectId = this.$route.params.id;
+      const objectId = this.object.art;
       const photoToDelete = this.photos[index];
 
       try {

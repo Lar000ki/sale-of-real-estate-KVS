@@ -12,7 +12,8 @@ const port = 3000;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'qwerty050',
+  //password: 'qwerty050',
+  password: '20Lw0aTiIYLvyZZ',
   database: 'kvs'
 });
 
@@ -289,12 +290,10 @@ app.get('/objects/:id/photos', (req, res) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to load photos' });
     }
-
     const photos = files.map(file => ({
       filename: file,
       path: `uploads/${objectId}/${file}`
     }));
-
     res.json({ photos });
   });
 });
