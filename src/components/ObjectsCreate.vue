@@ -121,175 +121,191 @@ export default {
         description: ''
       },
       photos: [], // Для хранения загруженных фотографий
-      errors: {} // Хранит ошибки валидации
+      errors: {}, // Хранит ошибки валидации
+      isNewObject: true // Флаг для определения нового объекта
     };
   },
   created() {
-    // Загрузка объекта и фотографий при создании компонента
-    this.loadObject();
-    this.loadPhotos();
+    // Определение, является ли объект новым или существующим
+    const objectId = this.$route.params.id;
+    if (objectId) {
+      this.isNewObject = false;
+      this.loadObject(objectId);
+      this.loadPhotos(objectId);
+    } else {
+      this.isNewObject = true;
+    }
   },
   methods: {
-  async loadObject() {
-    if (this.validateForm()) {
-      const objectId = this.$route.params.id;
+    async loadObject(objectId) {
+      if (!this.isNewObject) {
+        try {
+          const response = await fetch(`http://localhost:3000/objects/${objectId}`);
+          if (!response.ok) throw new Error('Ошибка загрузки объекта');
+          const data = await response.json();
+          this.object = data;
+          this.validateField('art'); // Валидация полей после загрузки данных
+        } catch (error) {
+          console.error('Ошибка загрузки объекта:', error);
+          alert('Ошибка загрузки объекта');
+        }
+      }
+    },
+    async loadPhotos(objectId) {
+      if (!this.isNewObject) {
+        try {
+          const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`);
+          if (!response.ok) throw new Error('Ошибка загрузки фотографий');
+          const data = await response.json();
+          this.photos = data.photos.map(photo => ({
+            ...photo,
+            path: `http://localhost:3000/${photo.path}`
+          }));
+        } catch (error) {
+          console.error('Ошибка загрузки фотографий:', error);
+        }
+      }
+    },
+    async saveObject() {
+      if (this.validateForm()) {
+        const method = this.isNewObject ? 'POST' : 'PUT';
+        const objectId = this.isNewObject ? null : this.$route.params.id;
+        const url = this.isNewObject
+          ? 'http://localhost:3000/objects'
+          : `http://localhost:3000/objects/${objectId}`;
+
+        try {
+          const response = await fetch(url, {
+            method: method,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.object)
+          });
+          if (!response.ok) throw new Error('Ошибка сохранения объекта');
+          alert('Объект сохранен');
+          if (this.isNewObject) {
+            const newObjectId = await response.json().id;
+            await this.savePhotos(newObjectId);
+          } else {
+            this.$router.push('/objects');
+          }
+        } catch (error) {
+          console.error('Ошибка сохранения объекта:', error);
+          alert('Ошибка сохранения объекта');
+        }
+      }
+    },
+    async savePhotos(objectId) {
+      const formData = new FormData();
+      for (let i = 0; i < this.photos.length; i++) {
+        formData.append('photos', this.photos[i].file);
+      }
+
       try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.object)
+        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
+          method: 'POST',
+          body: formData
         });
         if (!response.ok) {
-          throw new Error('Ошибка сохранения объекта');
+          const errorText = await response.text();
+          console.error('Ошибка ответа сервера при сохранении фотографий:', errorText);
+          throw new Error('Ошибка загрузки фотографий');
         }
-        alert('Объект сохранен');
-        this.$router.push('/objects');
       } catch (error) {
-        console.error('Ошибка сохранения объекта:', error);
-        alert('Ошибка сохранения объекта');
+        console.error('Ошибка загрузки фотографий:', error);
+        alert('Ошибка загрузки фотографий');
       }
-    }
-  },
-  async loadPhotos() {
-    // Метод для загрузки фотографий объекта с сервера
-    const objectArt = this.object.art;
-    try {
-      const response = await fetch(`http://localhost:3000/objects/${objectArt}/photos`);
-      if (!response.ok) {
-        throw new Error('Ошибка загрузки фотографий');
+    },
+    handleFileUpload(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.photos.push({ preview: e.target.result, file: files[i], name: files[i].name });
+        };
+        reader.readAsDataURL(files[i]);
       }
-      const data = await response.json();
-      this.photos = data.photos.map(photo => ({
-        ...photo,
-        path: `http://localhost:3000/${photo.path}`
-      }));
-    } catch (error) {
-      console.error('Ошибка загрузки фотографий:', error);
-    }
-  },
-  async savePhotos(objectId) {
-    const formData = new FormData();
-    for (let i = 0; i < this.photos.length; i++) {
-      formData.append('photos', this.photos[i].file);
-    }
+    },
+    cancelEdit() {
+      this.$router.push('/objects');
+    },
+    deletePhoto(index) {
+      this.photos.splice(index, 1);
+    },
+    validateField(fieldName) {
+      const value = this.object[fieldName];
+      this.errors[fieldName] = ''; // Сброс ошибки
 
-    try {
-      const response = await fetch(`http://localhost:3000/objects/${objectId}/photos`, {
-        method: 'POST',
-        body: formData
-      });
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Ошибка ответа сервера при сохранении фотографий:', errorText);
-        throw new Error('Ошибка загрузки фотографий');
+      const strValue = String(value).trim(); // Приведение к строке и обрезка
+
+      switch (fieldName) {
+        case 'art':
+          if (!strValue) this.errors.art = 'Введите артикул.';
+          break;
+        case 'title':
+          if (!strValue) this.errors.title = 'Введите заголовок.';
+          break;
+        case 'category':
+          if (!strValue) this.errors.category = 'Введите категорию.';
+          break;
+        case 'type':
+          if (!strValue) this.errors.type = 'Введите тип недвижимости.';
+          else if (/^\d+$/.test(strValue)) this.errors.type = 'Тип недвижимости не может быть числом.';
+          break;
+        case 'year':
+          if (!strValue) this.errors.year = 'Введите год постройки.';
+          else if (!/^\d{4}$/.test(strValue)) this.errors.year = 'Введите корректный год постройки (4 цифры).';
+          break;
+        case 'rooms':
+          if (!strValue) this.errors.rooms = 'Введите количество комнат.';
+          else if (!/^\d+$/.test(strValue)) this.errors.rooms = 'Количество комнат должно быть числом.';
+          break;
+        case 'floors':
+          if (!strValue) this.errors.floors = 'Введите этажность.';
+          else if (!/^\d+$/.test(strValue)) this.errors.floors = 'Этажность должна быть числом.';
+          break;
+        case 'floor':
+          if (!strValue) this.errors.floor = 'Введите этаж.';
+          else if (!/^\d+$/.test(strValue)) this.errors.floor = 'Этаж должен быть числом.';
+          break;
+        case 'price':
+          if (!strValue) this.errors.price = 'Введите цену.';
+          else if (!/^\d+(\.\d{1,2})?$/.test(strValue)) this.errors.price = 'Цена должна быть числом и может содержать до двух знаков после запятой.';
+          break;
+        case 'clientid':
+          if (!strValue) this.errors.clientid = 'Введите ID клиента.';
+          break;
+        case 'description':
+          if (!strValue) this.errors.description = 'Введите описание.';
+          break;
+        default:
+          break;
       }
-    } catch (error) {
-      console.error('Ошибка загрузки фотографий:', error);
-      alert('Ошибка загрузки фотографий');
+    },
+    validateForm() {
+      // Валидация всей формы
+      Object.keys(this.object).forEach(field => this.validateField(field));
+      return !Object.values(this.errors).some(error => error);
     }
   },
-  handleFileUpload(event) {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.photos.push({ preview: e.target.result, file: files[i], name: files[i].name });
-      };
-      reader.readAsDataURL(files[i]);
-    }
-  },
-  cancelEdit() {
-    this.$router.push('/objects');
-  },
-  deletePhoto(index) {
-    this.photos.splice(index, 1);
-  },
-  validateForm() {
-    this.errors = {};
-    let isValid = true;
-
-    const trimToString = (value) => (value ? String(value).trim() : '');
-
-    const art = trimToString(this.object.art);
-    const title = trimToString(this.object.title);
-    const category = trimToString(this.object.category);
-    const type = trimToString(this.object.type);
-    const year = trimToString(this.object.year);
-    const rooms = trimToString(this.object.rooms);
-    const floors = trimToString(this.object.floors);
-    const floor = trimToString(this.object.floor);
-    const price = trimToString(this.object.price);
-    const clientid = trimToString(this.object.clientid);
-    const description = trimToString(this.object.description);
-    if (!art) {
-      this.errors.art = 'Введите артикул.';
-      isValid = false;
-    }
-    if (!title) {
-      this.errors.title = 'Введите заголовок.';
-      isValid = false;
-    }
-    if (!category) {
-      this.errors.category = 'Введите категорию.';
-      isValid = false;
-    }
-    if (!type) {
-      this.errors.type = 'Введите тип недвижимости.';
-      isValid = false;
-    } else if (/^\d+$/.test(type)) {
-      this.errors.type = 'Тип недвижимости не может быть числом.';
-      isValid = false;
-    }
-    if (!year) {
-      this.errors.year = 'Введите год постройки.';
-      isValid = false;
-    } else if (!/^\d{4}$/.test(year)) {
-      this.errors.year = 'Введите корректный год постройки (4 цифры).';
-      isValid = false;
-    }
-    if (!rooms) {
-      this.errors.rooms = 'Введите количество комнат.';
-      isValid = false;
-    } else if (!/^\d+$/.test(rooms)) {
-      this.errors.rooms = 'Количество комнат должно быть числом.';
-      isValid = false;
-    }
-    if (!floors) {
-      this.errors.floors = 'Введите этажность.';
-      isValid = false;
-    } else if (!/^\d+$/.test(floors)) {
-      this.errors.floors = 'Этажность должна быть числом.';
-      isValid = false;
-    }
-    if (!floor) {
-      this.errors.floor = 'Введите этаж.';
-      isValid = false;
-    } else if (!/^\d+$/.test(floor)) {
-      this.errors.floor = 'Этаж должен быть числом.';
-      isValid = false;
-    }
-    if (!price) {
-      this.errors.price = 'Введите цену.';
-      isValid = false;
-    } else if (!/^\d+(\.\d{1,2})?$/.test(price)) {
-      this.errors.price = 'Цена должна быть числом и может содержать до двух знаков после запятой.';
-      isValid = false;
-    }
-    if (!clientid) {
-      this.errors.clientid = 'Введите ID клиента.';
-      isValid = false;
-    }
-    if (!description) {
-      this.errors.description = 'Введите описание.';
-      isValid = false;
-    }
-    return isValid;
+  watch: {
+    'object.art': 'validateField',
+    'object.title': 'validateField',
+    'object.category': 'validateField',
+    'object.type': 'validateField',
+    'object.year': 'validateField',
+    'object.rooms': 'validateField',
+    'object.floors': 'validateField',
+    'object.floor': 'validateField',
+    'object.price': 'validateField',
+    'object.clientid': 'validateField',
+    'object.description': 'validateField'
   }
-}
 };
 </script>
+
+
 <style scoped>
 .error-message {
   color: red;

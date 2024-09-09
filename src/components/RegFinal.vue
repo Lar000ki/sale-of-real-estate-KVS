@@ -27,44 +27,43 @@ export default {
 </script>
 
 <style scoped>
+
+
 .div-6 {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
-}
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 
+}
 
 .column {
   width: 50%;
 }
 
-
 .img-3 {
   width: 100%;
   height: 100%; 
-  object-fit: cover; 
+  object-fit: cover;
 }
 
-
 .column-2 {
-  width: 50%; 
-  display: flex; 
-  justify-content: flex-start; 
-  align-items: flex-start; 
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .div-7 {
-  justify-content: left;
-  align-items: left;
-  align-self: stretch;
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
   color: var(--GreyDarkMain, #292f36);
   margin-left: 10vw;
-  margin-top:-5vw;
+  margin-top: -5vw;
 }
 
 .div-8 {
