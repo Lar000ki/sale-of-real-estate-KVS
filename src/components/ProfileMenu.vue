@@ -47,6 +47,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 export default {
   name: 'ProfileMenu',
   data() {
@@ -170,10 +173,18 @@ export default {
 
         const updatedUser = await response.json();
         this.$userState.loginUser(updatedUser);
-        alert('Профиль успешно обновлен');
+        Swal.fire({
+  title: 'Профиль успешно обновлен',
+  icon: 'success',
+  confirmButtonText: 'OK'
+});
       } catch (error) {
         console.error('Error updating profile:', error);
-        alert('Ошибка при обновлении профиля');
+        Swal.fire({
+  title: 'Ошибка при обновлении профиля',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     },
     cancel() {

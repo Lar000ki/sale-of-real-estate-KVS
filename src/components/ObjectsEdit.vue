@@ -104,6 +104,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 export default {
   name: 'ObjectsEdit',
   data() {
@@ -139,7 +142,11 @@ export default {
         await this.loadPhotos();
       } catch (error) {
         console.error('Ошибка загрузки объекта:', error);
-        alert('Ошибка загрузки объекта');
+        Swal.fire({
+  title: 'Ошибка загрузки объекта',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     },
     async loadPhotos() {
@@ -154,7 +161,11 @@ export default {
         }));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
-        alert('Ошибка загрузки фотографий');
+        Swal.fire({
+  title: 'Ошибка загрузки фотографий',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     },
     validateForm() {
@@ -212,11 +223,19 @@ export default {
             body: JSON.stringify(this.object)
           });
           if (!response.ok) throw new Error('Ошибка сохранения объекта');
-          alert('Объект сохранен');
+          Swal.fire({
+  title: 'Объект сохранен',
+  icon: 'success',
+  confirmButtonText: 'OK'
+});
           this.$router.push('/objects');
         } catch (error) {
           console.error('Ошибка сохранения объекта:', error);
-          alert('Ошибка сохранения объекта');
+          Swal.fire({
+  title: 'Ошибка сохранения объекта',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
         }
       }
     },
@@ -241,7 +260,11 @@ export default {
         this.photos = this.photos.concat(data.photoPaths.map(path => ({ path })));
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
-        alert('Ошибка загрузки фотографий');
+        Swal.fire({
+  title: 'Ошибка загрузки фотографий',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     },
     async deletePhoto(index) {
@@ -249,15 +272,23 @@ export default {
       const photoToDelete = this.photos[index];
 
       try {
-        const response = await fetch(`http://localhost:3000/objects/${objectId}/photos/${photoToDelete.filename}`, {
-          method: 'DELETE'
+        const response = await fetch(`http://localhost:3000/objectsdel/${objectId}/photos/${photoToDelete.filename}`, {
+          method: 'POST'
         });
         if (!response.ok) throw new Error('Ошибка удаления фотографии');
-        alert('Фотография удалена');
+        Swal.fire({
+  title: 'Фотография удалена',
+  icon: 'success',
+  confirmButtonText: 'OK'
+});
         this.photos.splice(index, 1);
       } catch (error) {
         console.error('Ошибка удаления фотографии:', error);
-        alert('Ошибка удаления фотографии');
+        Swal.fire({
+  title: 'Ошибка удаления фотографии',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     }
   }

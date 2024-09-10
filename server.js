@@ -12,8 +12,8 @@ const port = 3000;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  //password: 'qwerty050',
-  password: '20Lw0aTiIYLvyZZ',
+  password: 'qwerty050',
+  //password: '20Lw0aTiIYLvyZZ',
   database: 'kvs'
 });
 
@@ -263,8 +263,6 @@ app.post('/objects/:id/photos', upload.array('photos', 5), async (req, res) => {
 app.post('/objectsdel/:id/photos/:filename', (req, res) => {
   const objectId = req.params.id;
   const filename = req.params.filename;
-
-  if (req.body.delete === true) {
     const filePath = path.join(__dirname, 'uploads', objectId.toString(), filename);
     fs.unlink(filePath, (err) => {
       if (err) {
@@ -273,9 +271,6 @@ app.post('/objectsdel/:id/photos/:filename', (req, res) => {
       }
       res.json({ success: true });
     });
-  } else {
-    res.status(400).json({ error: 'Invalid request' });
-  }
 });
 
 app.get('/objects/:id/photos', (req, res) => {

@@ -20,7 +20,10 @@
             <div class="form-row">
               <div class="form-field">
                 <label for="category" class="field-label">Категория</label>
-                <input v-model="object.category" type="text" class="field-value-with-icon" />
+                <select v-model="object.category" class="field-value">
+                  <option value="Квартира">Квартира</option>
+                  <option value="Дом">Дом</option>
+                </select>
                 <div v-if="errors.category" class="error-message">{{ errors.category }}</div>
               </div>
               <div class="form-field">
@@ -103,6 +106,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 export default {
   name: 'ObjectsEdit',
   data() {
@@ -147,7 +153,11 @@ export default {
           this.validateField('art'); // Валидация полей после загрузки данных
         } catch (error) {
           console.error('Ошибка загрузки объекта:', error);
-          alert('Ошибка загрузки объекта');
+          Swal.fire({
+  title: 'Ошибка загрузки объекта',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
         }
       }
     },
@@ -171,7 +181,7 @@ export default {
         const method = this.isNewObject ? 'POST' : 'PUT';
         const objectId = this.isNewObject ? null : this.$route.params.id;
         const url = this.isNewObject
-          ? 'http://localhost:3000/objects'
+          ? 'http://localhost:3000/objectsadd'
           : `http://localhost:3000/objects/${objectId}`;
 
         try {
@@ -181,22 +191,30 @@ export default {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(this.object)
-          });
+          }); 
           if (!response.ok) throw new Error('Ошибка сохранения объекта');
-          alert('Объект сохранен');
+          Swal.fire({
+  title: 'Объект сохранен',
+  icon: 'success',
+  confirmButtonText: 'OK'
+});
           if (this.isNewObject) {
             const newObjectId = await response.json().id;
             await this.savePhotos(newObjectId);
-          } else {
-            this.$router.push('/objects');
           }
+          this.$router.push(`/objects`);
         } catch (error) {
           console.error('Ошибка сохранения объекта:', error);
-          alert('Ошибка сохранения объекта');
+          Swal.fire({
+  title: 'Ошибка сохранения объекта',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
         }
       }
     },
-    async savePhotos(objectId) {
+    async savePhotos() {
+      const objectId = this.object.art;
       const formData = new FormData();
       for (let i = 0; i < this.photos.length; i++) {
         formData.append('photos', this.photos[i].file);
@@ -214,7 +232,11 @@ export default {
         }
       } catch (error) {
         console.error('Ошибка загрузки фотографий:', error);
-        alert('Ошибка загрузки фотографий');
+        Swal.fire({
+  title: 'Ошибка загрузки фотографий',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     },
     handleFileUpload(event) {

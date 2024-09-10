@@ -37,6 +37,8 @@
 
 
 <script>
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
 export default {
@@ -79,12 +81,15 @@ export default {
           pass: this.password
         });
         if (response.status === 201) {
-          alert('Пользователь успешно зарегистрирован');
           this.$router.push({ name: 'RegFinal' });
         }
       } catch (error) {
         console.error('Ошибка регистрации пользователя:', error);
-        alert('Ошибка регистрации пользователя');
+        Swal.fire({
+  title: 'Ошибка регистрации пользователя',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
       }
     }
   }

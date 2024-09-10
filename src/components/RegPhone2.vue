@@ -14,7 +14,7 @@
           Введите смс-код высланный на Ваш номер телефона
         </div>
         <div class="div-10">
-          <div class="div-11">СМС-код</div>
+          <div class="div-11">СМС-код (пока что код: 0000)</div>
           <input
             v-model="smsCode"
             class="div-12"
@@ -36,6 +36,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 export default {
   name: 'RegPhone2',
   props: ['phone'],
@@ -66,12 +69,20 @@ export default {
         if (this.smsCode === '0000') {
           this.$router.push({ name: 'RegPass', params: { phone: this.phone } });
         } else {
-          alert('Неправильный код');
+          Swal.fire({
+  title: 'Неправильный код',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
         }
       }
     },
     resendSmsCode() {
-      alert('Код отправлен снова');
+      Swal.fire({
+  title: 'Код отправлен снова',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
     }
   }
 };

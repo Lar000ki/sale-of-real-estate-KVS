@@ -45,6 +45,8 @@
 
 
 <script>
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
 export default {
@@ -112,7 +114,12 @@ export default {
           this.$router.push({ name: 'ObjectsMenu' });
         } catch (error) {
           console.error('Ошибка входа: ', error);
-          alert('Ошибка входа, перепроверьте введенные данные');
+          Swal.fire({
+  title: 'Ошибка входа, перепроверьте введенные данные',
+  icon: 'error',
+  confirmButtonText: 'OK'
+});
+          
         }
       }
     }
